@@ -3,39 +3,39 @@ using System.Collections.Generic;
 
 namespace lab03
 {
-    public class stack
+    public class stack<T>
     {
         const int number = 10;
-        public int[] array;
+        public T[] array;
         int counter = 0;
         public stack()
         {
-            array = new int[number];
+            array = new T[number];
         }
         public stack(int length)
         {
-            array = new int[length];
+            array = new T[length];
         }
-        public void Push(int elem)
+        public void Push(T elem)
         {
             array[counter] = elem;
             counter++;
         }
-        public int Pop()
+        public T Pop()
         {
             if (counter==0)
             {
                 throw new Exception("cтек пуст");
             }
-            int result = array[--counter];
-            array[counter] = default(int);
+            T result = array[--counter];
+            array[counter] = default(T);
             return result;
         }
-        public bool Contains(int elem)
+        public bool Contains(T elem)
         {
             foreach(var arr in array)
             {
-                if (arr == elem)
+                if (arr.Equals(elem))
                     return true;
             }
             return false;
@@ -44,9 +44,17 @@ namespace lab03
         {
             for(int i=0; i < counter; i++)
             {
-                array[i] = default(int);
+                array[i] = default(T);
             }
             counter = 0;
+        }
+        public T Peek()
+        {
+            if (counter == 0)
+                throw new Exception("стек пуст");
+            T result = array[--counter];
+            counter++;
+            return result;
         }
 
 
@@ -63,15 +71,17 @@ namespace lab03
         {
             try
             {
-                stack stack1 = new stack();
-                stack stack2 = new stack(10);
+                stack<int> stack1 = new stack<int>();
+                stack<string> stack2 = new stack<string>(10);
                 stack1.Push(122);
                 stack1.Push(124);
                 
                 int top = stack1.Pop();
                 stack1.Push(125);
                 bool a = stack1.Contains(122);
+                Console.WriteLine($"includes");
                 bool b = stack1.Contains(2);
+                int c = stack1.Peek();
                 stack1.Clear();
                 int top1 = stack1.Pop();
                 Console.WriteLine($"top:{top}");
@@ -80,11 +90,6 @@ namespace lab03
             {
                 Console.WriteLine(e.Message);
             }
-            
-
-
-
-
         }
     }
 }
