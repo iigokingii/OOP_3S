@@ -13,8 +13,8 @@ namespace Lab01
             //основные
             sbyte a1 = 127;
             Console.WriteLine($" sbyte:{a1}");
-            object o1 = a1;
-            sbyte c1 = (sbyte)o1;
+            object o1 = a1;//упаковка
+            sbyte c1 = (sbyte)o1;//распаковка
 
             byte a2 = 255;
             Console.WriteLine($" byte:{a2}");
@@ -94,7 +94,7 @@ namespace Lab01
             float b18 = (System.Single)b17;
             double b19 = 6.66;
             int b20 = Convert.ToInt32(b19);
-
+            //неявно типизированная переменная
             double? n = 100.9922445;
             if (n.HasValue)
                 Console.WriteLine($"\n число n = {n}");
