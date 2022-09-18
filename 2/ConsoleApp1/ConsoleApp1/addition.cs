@@ -40,7 +40,13 @@ namespace labo2
             }
         }
        
-       
+        public string Id
+        {
+            get
+            {
+                return id;
+            }
+        }
         public string Time
         {
             
@@ -63,6 +69,6 @@ namespace labo2
                 return counter;
             }
         }
-        public static void Print(Airline airline) => Console.WriteLine($" type:{type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{time} day:{airline.day} №{counter}");
+        public static void Print(Airline airline) => Console.WriteLine($"id:{airline.Id} type:{type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{time} day:{airline.day} №{counter}");
     }
 }
