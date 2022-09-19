@@ -58,41 +58,9 @@ namespace lab03
                 }
             }
         }
-        static public class StatisticOperation
-        {
-            public static int sum( stack<int> stack)
-            {
-                int sum=0;
-                for (int i = 0; i <stack.counter; i++)
-                {
-                    sum += stack.array[i];
-                }
-                return sum;
-            }
-            public static int difference(stack<int>stack)
-            {
-                int max = 0;
-                int min = 1000;
-                for (int i = 0; i < stack.counter; i++)
-                {
-                    if (max < stack.array[i])
-                        max = stack.array[i];
-                    else if (min > stack.array[i])
-                        min = stack.array[i];
-                }
-                int difference = max - min;
-                return difference;
-            }
-            public static int counter(stack<int> stack)
-            {
-                return stack.counter;
-            }
-
-        }
-
         const int number = 10;
         public T[] array;
-        int counter = 0;
+        public int counter = 0;
         public stack()
         {
             array = new T[number];
@@ -206,6 +174,52 @@ namespace lab03
             return stack1;
         }*/
     }
+    static public class StatisticOperation
+    {
+        public static int sum(stack<int> stack)
+        {
+            int sum = 0;
+            for (int i = 0; i < stack.counter; i++)
+            {
+                sum += stack.array[i];
+            }
+            return sum;
+        }
+        public static int difference(stack<int> stack)
+        {
+            int max = 0;
+            int min = 1000;
+            for (int i = 0; i < stack.counter; i++)
+            {
+                if (max < stack.array[i])
+                    max = stack.array[i];
+                else if (min > stack.array[i])
+                    min = stack.array[i];
+            }
+            int difference = max - min;
+            return difference;
+        }
+        public static int counter(stack<int> stack)
+        {
+            return stack.counter;
+        }
+        public static int NumberOfSentences(this string str)
+        {
+            int counter = 0;
+            for (int i = 0; i < str.Length; i++)
+            {
+                if (str[i] == '!' || str[i] == '?' || str[i] == '.')
+                    counter++;
+            }
+            return counter;
+        }
+        public static int MiddleElement(this stack<int> stack)
+        {
+            int middle = stack.counter / 2;
+            return stack.array[middle];
+        }
+
+    }
     class Program
     {
         static void Main(string[] args)
@@ -218,7 +232,8 @@ namespace lab03
                 stack1.Push(124);
                 stack1.Push(1000);
                 stack1.Push(100);
-                stack1.Push(125);
+                stack1.Push(110);
+                //stack1.Push(125);
                 int top = stack1.Pop();
                 bool a = stack1.Contains(122);
                 Console.WriteLine($"includes");
@@ -243,10 +258,15 @@ namespace lab03
                 developer.FIO = "smolik valeriy Aleksandrovich";
                 developer.Department = "SoftWare";
 
-                int Sum=stack<int>.StatisticOperation.sum(stack1);
-                int Difference = stack<int>.StatisticOperation.difference(stack1);
-                int Counter = stack<int>.StatisticOperation.counter(stack1);
+                int Sum=StatisticOperation.sum(stack1);
+                int Difference =StatisticOperation.difference(stack1);
+                int Counter =StatisticOperation.counter(stack1);
                 Console.WriteLine($"Sum:{Sum};\tDifference:{Difference};\t\tCounter:{Counter}");
+                string stroke = "Hello,World!I like ice-creem.My name is valera.How old are u?";
+                int numb = stroke.NumberOfSentences();
+                Console.WriteLine($"Number of sentences:{numb}");
+                int middle = stack1.MiddleElement();
+                Console.WriteLine($"Middle:{middle}");
 
 
                 //stack1.Clear();
