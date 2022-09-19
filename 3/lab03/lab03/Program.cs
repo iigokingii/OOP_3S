@@ -19,11 +19,11 @@ namespace lab03
                 Name = NAME;
             }
         }
-        class Developer
+        public class Developer
         {
             string fio;
             int id;
-            int department;
+            string department;
             public string FIO
             {
                 get
@@ -46,7 +46,7 @@ namespace lab03
                     id = ID;
                 }
             }
-            public int Department
+            public string Department
             {
                 get
                 {
@@ -58,7 +58,37 @@ namespace lab03
                 }
             }
         }
+        static public class StatisticOperation
+        {
+            public static int sum( stack<int> stack)
+            {
+                int sum=0;
+                for (int i = 0; i <stack.counter; i++)
+                {
+                    sum += stack.array[i];
+                }
+                return sum;
+            }
+            public static int difference(stack<int>stack)
+            {
+                int max = 0;
+                int min = 1000;
+                for (int i = 0; i < stack.counter; i++)
+                {
+                    if (max < stack.array[i])
+                        max = stack.array[i];
+                    else if (min > stack.array[i])
+                        min = stack.array[i];
+                }
+                int difference = max - min;
+                return difference;
+            }
+            public static int counter(stack<int> stack)
+            {
+                return stack.counter;
+            }
 
+        }
 
         const int number = 10;
         public T[] array;
@@ -186,9 +216,10 @@ namespace lab03
                 stack<string> stack2 = new stack<string>(10);
                 stack1.Push(122);
                 stack1.Push(124);
-                
-                int top = stack1.Pop();
+                stack1.Push(1000);
+                stack1.Push(100);
                 stack1.Push(125);
+                int top = stack1.Pop();
                 bool a = stack1.Contains(122);
                 Console.WriteLine($"includes");
                 bool b = stack1.Contains(2);
@@ -206,9 +237,16 @@ namespace lab03
                 stack<int> stack3 = new stack<int>();
                 //stack3= stack1 > stack3;
                 stack<string>.Production prod1 = new stack<string>.Production();
-                stack<int>.Production prod2 = new stack<int>.Production(1,"GoKing");
-                
+                stack<int>.Production production = new stack<int>.Production(1,"GoKing");
+                stack<int>.Developer developer = new stack<int>.Developer();
+                developer.ID = 123;
+                developer.FIO = "smolik valeriy Aleksandrovich";
+                developer.Department = "SoftWare";
 
+                int Sum=stack<int>.StatisticOperation.sum(stack1);
+                int Difference = stack<int>.StatisticOperation.difference(stack1);
+                int Counter = stack<int>.StatisticOperation.counter(stack1);
+                Console.WriteLine($"Sum:{Sum};\tDifference:{Difference};\t\tCounter:{Counter}");
 
 
                 //stack1.Clear();
