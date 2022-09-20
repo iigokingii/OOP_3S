@@ -69,6 +69,10 @@ namespace labo2
         static void Main(string[] args)
         {
 
+            
+
+
+
             Airline obj = new Airline();
             Airline.Print(obj);
             Airline obj1 = new Airline("vileyka", 2221111,"tue");
@@ -81,11 +85,6 @@ namespace labo2
             obj4.PointOfDeparture = "Brest";
             obj4.Day = "sunday";
             Console.WriteLine($"id:{obj4.Id} type:{obj4.Type} point of departure:{obj4.PointOfDeparture} number:{obj4.Number} time:{obj4.Time} day:{obj4.Day} №{obj4.Counter}");
-
-
-            var airline = new { number = 312312, type = "first class", pointOfDeparture = "grodno", time = "22:11", day = "wednesday" };
-            Console.WriteLine($"type:{airline.type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{airline.time} day:{airline.day} ");
-
 
             Airline[] arr = { obj, obj1, obj2, obj4 };
             Console.WriteLine("Какой пункт необходимо искать?");
@@ -114,7 +113,22 @@ namespace labo2
             else
                 Console.WriteLine("не равны");
 
+            void difference(ref int a,ref int b,out int result)
+            {
+                int temp = a;
+                a = b;
+                b = temp;
+                result = b - a;
+            }
 
+            int aValue = 12;
+            int bValue = 10;
+            int resultValue;
+            difference(ref aValue, ref bValue,out resultValue);
+            Console.WriteLine($"aValue after method:{aValue},\t\tbValue:{bValue},\t\tresult:{resultValue}");
+
+            var airline = new { number = 312312, type = "First class", pointOfDeparture = "grodno", time = "22:11", day = "wednesday", id = Guid.NewGuid().ToString() };
+            Console.WriteLine($"Анонимный тип:\nid:{airline.id}type:{airline.type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{airline.time} day:{airline.day} ");
 
         }
     }
