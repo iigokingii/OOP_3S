@@ -53,7 +53,7 @@ namespace labo2
         {
             if (obj == null) 
                 return false;
-            Airline m = obj as Airline;
+            Airline m = obj as Airline; 
             if (m as Airline == null)
                 return false;
             return m.day == this.day && m.id == this.id && m.number == this.number && m.pointOfDeparture == this.pointOfDeparture;
@@ -68,11 +68,6 @@ namespace labo2
     {
         static void Main(string[] args)
         {
-
-            
-
-
-
             Airline obj = new Airline();
             Airline.Print(obj);
             Airline obj1 = new Airline("vileyka", 2221111,"tue");
@@ -107,7 +102,7 @@ namespace labo2
                     Console.WriteLine($"id:{arr[i].Id} type:{arr[i].Type} point of departure:{arr[i].PointOfDeparture} number:{arr[i].Number} time:{arr[i].Time} day:{arr[i].Day} ");
                 }
             }
-            string hash =obj.GetHashCode().ToString();
+            string hash = obj.GetHashCode().ToString();
             if (obj.Equals(obj2))
                 Console.WriteLine("равны");
             else
@@ -128,7 +123,7 @@ namespace labo2
             Console.WriteLine($"aValue after method:{aValue},\t\tbValue:{bValue},\t\tresult:{resultValue}");
 
             var airline = new { number = 312312, type = "First class", pointOfDeparture = "grodno", time = "22:11", day = "wednesday", id = Guid.NewGuid().ToString() };
-            Console.WriteLine($"Анонимный тип:\nid:{airline.id}type:{airline.type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{airline.time} day:{airline.day} ");
+            Console.WriteLine($"Анонимный тип:\nid:{airline.id} type:{airline.type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{airline.time} day:{airline.day} ");
 
         }
     }

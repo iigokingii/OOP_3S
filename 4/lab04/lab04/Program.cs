@@ -1,123 +1,67 @@
 ﻿using System;
-
+using System.Collections.Generic;
 namespace lab04
 {
-    interface IInformation
-    {
-        void print();
-    }
-    abstract class surface
-    {
-        public void Surface()
-        {
-            Console.WriteLine("Вы находитесь на поверхности земли");
-        }
-    }
-    class land:surface
-    {
-        int square;
-        public int Square
-        {
-            get
-            {
-                return this.square;
-            }
-            set
-            {
-                this.square = value;
-            }
-        }
-        
-
-    }
-   sealed class continent : land
-    {
-        string name;
-        public string Name(string name)
-        {
-            return this.name = name;
-        }
-        public class state:land
-        {
-            string StateName;
-            public string name
-            {
-                get
-                {
-                    return this.StateName;
-                }
-                set
-                {
-                    this.StateName = value;
-                }
-            }
-        }
-        public override string ToString()
-        {
-            return $"name:{name}, square:{Square}";
-        }
-        public override int GetHashCode()
-        {
-            int hash = (Square / 3) * 4;
-            return hash;
-        }
-        public override bool Equals(object obj)
-        {
-            if (obj.GetType() != this.GetType())
-                return false;
-            var otherObj = (continent)obj;
-            return (otherObj.Square == this.Square)&&(otherObj.name==this.name);
-        }
-    }
-    class island : land
-    {
-        public string Name ;
-    }
-
-    class water
-    {
-        int volumeOfAllWater;
-        public water() {
-            volumeOfAllWater = 1400000000;           
-        }
-        public water(int volume)
-        {
-            volumeOfAllWater = volume;
-        }
-    }
-    class sea : water
-    {
-        string name="Atlantic ocean";
-        public string Name(string Name)
-        {
-            return this.name = Name;
-        }
-    }
-
-
     class Program
     {
         static void Main(string[] args)
         {
-            land obj = new land();
-            obj.Square= 123999;
-            obj.Surface();
-            continent obj2 = new continent();
-            obj2.Name("Евразия");
-            obj2.Square=14430;
-            string stroke=obj2.ToString();
-            Console.WriteLine(stroke);
+            land Land = new land(123999, "peat soil");
+            Console.WriteLine($"information about first object:\n{Land.ToString()}");
+            Land.DoClone();
+            ((IInformation)Land).DoClone();
 
-            continent.state obj3 = new continent.state();
-            obj3.name = "Belarus";
+            continent Eurasia = new continent("Евразия", 322332,"coal") ;
+            continent Africa = new continent("Африка", 322332, "coal");
+            Console.WriteLine($"\ninformation about second object:\n{Eurasia.ToString()}");
+            Console.WriteLine($"переопределенные методы:\nHashcode:{Eurasia.GetHashCode()},\tEquals:{Eurasia.Equals(Africa)},\tToString: {Eurasia.ToString()}\n");
+
+            continent.state Belarus = new continent.state("Belarus");
+            Console.WriteLine($"information about third object:\n{Belarus.ToString()}\n"); 
 
 
+            island Hawaiian = new island(1234,"sand", "Hawaiian Islands");
+            Console.WriteLine($"information about fourth object:\n{Hawaiian.ToString()}\n");
 
-            island obj4 = new island();
-            obj4.Name = ("Hawaiian Islands");
-            obj4.Square= 28311;
-            sea obj5 = new sea();
-            obj5.Name("Pacific ocean");
+            water Water = new water(1400000000);
+            Console.WriteLine($"information about fifth object:\n{Water.ToString()}\n");
+
+            sea Pacific = new sea(710360000, "Pacific Ocean");
+            Console.WriteLine($"information about sixth object:\n{Pacific.ToString()}\n");
+
+            Console.WriteLine("Using as / is:");
+            if (Eurasia is land)
+            {
+                Console.WriteLine("this is the land");
+            }
+            if(Africa is continent)
+            {
+                Console.WriteLine("it is a continent");
+            }
+            if (Hawaiian as island == null)
+            {
+                Console.WriteLine("невозможно привести Hawaiian к типу island");
+            }
+            else
+            {
+                Console.WriteLine("возможно");
+            }
+            if (Hawaiian as land == null)
+            {
+                Console.WriteLine("невозможно привести Hawaiian к типу land");
+            }
+            else
+            {
+                Console.WriteLine("возможно");
+            }
+
+            Console.WriteLine("\nкласс Printer c полиморфным методом:");
+            List<land> list = new List<land> { new land(444211, "soil"), new continent("Австралия", 322332, "coal"), new island(1234, "sand", "Hawaiian Islands")};
+            Printer printer = new Printer();
+            foreach(land counter in list)
+            {
+                Console.WriteLine(printer.IAmPrinting(counter));
+            }
 
         }
     }

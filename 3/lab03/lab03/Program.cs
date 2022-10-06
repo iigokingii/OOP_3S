@@ -136,18 +136,27 @@ namespace lab03
         {
             return stack.IsEmpty();
         }
-        /*public static stack<int> operator >(stack<int> stack,stack<int> stack1)
+        public static stack<int> operator > (stack<int> stack,stack <T> stack1)
         {
             stack<int> stack3 = new stack<int>();
             int max = 0;
+            int index = 0;
+            int temp;
             for(int i=0;i<stack.counter;i++)
             {
-                for (int j = 0; j < stack.counter; j++)
+                max = 0;
+                for (int j = i; j < stack.counter; j++)
                 {
                     if (max < stack.array[j])
+                    {
                         max = stack.array[j];
+                        index = j;
+                    }
+                       
                 }
+                temp = stack.array[i];
                 stack.array[i] = max;
+                stack.array[index]=temp;
             }
             for (int i = 0; i < stack.counter; i++)
             {
@@ -155,8 +164,9 @@ namespace lab03
             }
             return stack3;
         }
-        public static stack<int> operator <(stack<int> stack, stack<int> stack1)
+        public static stack<int> operator <(stack<int> stack, stack<T> stack1)
         {
+            stack<int> stack3 = new stack<int>();
             int min = 0;
             for (int i = 0; i < stack.counter; i++)
             {
@@ -169,10 +179,10 @@ namespace lab03
             }
             for (int i = 0; i < stack.counter; i++)
             {
-                stack1.array[i] = stack.array[i];
+                stack3.array[i] = stack.array[i];
             }
-            return stack1;
-        }*/
+            return stack3;
+        }
     }
     static public class StatisticOperation
     {
@@ -203,6 +213,10 @@ namespace lab03
         {
             return stack.counter;
         }
+       
+    }
+    static public class StatisticOperationExtencion
+    {
         public static int NumberOfSentences(this string str)
         {
             int counter = 0;
@@ -218,7 +232,6 @@ namespace lab03
             int middle = stack.counter / 2;
             return stack.array[middle];
         }
-
     }
     class Program
     {
@@ -236,7 +249,10 @@ namespace lab03
                 //stack1.Push(125);
                 int top = stack1.Pop();
                 bool a = stack1.Contains(122);
-                Console.WriteLine($"includes");
+                if (a)
+                Console.WriteLine($"include 122");
+                else
+                    Console.WriteLine($"don't include{a}");
                 bool b = stack1.Contains(2);
                 int c = stack1.Peek();
                 int m = 412;
@@ -252,30 +268,36 @@ namespace lab03
                 stack<int> stack3 = new stack<int>();
                 //stack3= stack1 > stack3;
                 stack<string>.Production prod1 = new stack<string>.Production();
-                stack<int>.Production production = new stack<int>.Production(1,"GoKing");
+                stack<int>.Production production = new stack<int>.Production(1, "GoKing");
                 stack<int>.Developer developer = new stack<int>.Developer();
                 developer.ID = 123;
                 developer.FIO = "smolik valeriy Aleksandrovich";
                 developer.Department = "SoftWare";
 
-                int Sum=StatisticOperation.sum(stack1);
-                int Difference =StatisticOperation.difference(stack1);
-                int Counter =StatisticOperation.counter(stack1);
+                int Sum = StatisticOperation.sum(stack1);
+                int Difference = StatisticOperation.difference(stack1);
+                int Counter = StatisticOperation.counter(stack1);
                 Console.WriteLine($"Sum:{Sum};\tDifference:{Difference};\t\tCounter:{Counter}");
                 string stroke = "Hello,World!I like ice-creem.My name is valera.How old are u?";
+                Console.WriteLine($"stroke:{stroke}");
                 int numb = stroke.NumberOfSentences();
                 Console.WriteLine($"Number of sentences:{numb}");
                 int middle = stack1.MiddleElement();
-                Console.WriteLine($"Middle:{middle}");
+                Console.WriteLine($"Middle elem of stack1   :{middle}");
 
 
                 //stack1.Clear();
                 //int top1 = stack1.Pop();
-                //Console.WriteLine($"top:{top}");
+                
+                stack <int> stack4=stack1 > stack2;
+                Console.WriteLine($"top:{top}");
+
+
+
 
 
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Console.WriteLine(e.Message);
             }
