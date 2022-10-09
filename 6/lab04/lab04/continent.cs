@@ -22,10 +22,12 @@ namespace lab04
             }
             set
             {
-                if (value <50000)
+                if (value < 50000 && value > 0)
                 {
-                    square = 77777;
+                    throw new DevException();
                 }
+                else if (value < 0)
+                    throw new ArgumentDevLessThanZeroException("передано отрицательное число", 20);
                 else
                     square = value;
             }

@@ -24,6 +24,10 @@ namespace lab04
             set
             {
                 this.square = value;
+                if (square == 100000)
+                {
+                    throw new DeException("Площадь ровно 100000");
+                }
             }
         }
        

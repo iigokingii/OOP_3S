@@ -9,13 +9,18 @@ namespace lab04
         public DevException(string message) : base(message) { }
         public DevException() : base() { }
     }
-    class ArgumentDevException : ArgumentException
+    class ArgumentDevLessThanZeroException : ArgumentOutOfRangeException
     {
-        int value;
-        int Value { get; }
-        public ArgumentDevException(string message, int _value):base(message)
+        int value { get; }
+        public ArgumentDevLessThanZeroException(string message, int _value):base(message)
         {
             value = _value;
         }
     }
+    class DeException: Exception { 
+        public DeException(string message) : base(message) { }
+    }
+
+
+
 }
