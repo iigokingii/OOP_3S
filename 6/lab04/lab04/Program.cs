@@ -141,7 +141,7 @@ namespace lab04
     {
         static void Main(string[] args)
         {
-            
+/*            
             land Land = new land(123999, "peat soil");
             Console.WriteLine($"information about first object:\n{Land.ToString()}");
             Land.DoClone();
@@ -232,10 +232,44 @@ namespace lab04
             controller.findState(planet,name);
             Console.WriteLine($"\nколичество морей в классе контейнере:{controller.findSea(planet)}");
             Console.WriteLine("\nВывод островов ,добавленных в контейнер, в алфавитном порядке:");
-            controller.printIsland(planet);
+            controller.printIsland(planet);*/
 
 
-            Console.WriteLine();
+            // исключения
+            try
+            {
+                continent Antarctica = new continent("Антактида",42500,"ice");
+            }
+            catch(DevException e)
+            {
+                Console.WriteLine(e.ToString());
+            }
+            finally
+            {
+                Console.WriteLine("<----------------------------------------->");   
+            }
+
+
+            try
+            {
+                continent SouthAmeric = new continent("Южная Америка", -3123123, "land");
+            }
+            catch(ArgumentDevException e)
+            {
+                Console.WriteLine("Ошибка: "+e.Message);
+                Console.WriteLine("Имя объекта или сборки, которое вызвало исключение:"+e.Source);
+                Console.WriteLine("Метод, в котором было вызвано исключение:"+e.TargetSite);
+            }
+            finally
+            {
+                Console.WriteLine("<----------------------------------------->");
+            }
+
+
+
+
+
+
 
 
         }
