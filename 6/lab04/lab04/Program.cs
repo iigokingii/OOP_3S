@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 namespace lab04
 {
     enum Classes
@@ -328,7 +329,11 @@ namespace lab04
                     Console.WriteLine("Метод, в котором было вызвано исключение:" + ex.TargetSite);
                     Console.WriteLine("Имя объекта или сборки, которое вызвало исключение:" + ex.Source);
                     throw;
-                }               
+                }
+                finally
+                {
+                    Console.WriteLine("<----------------------------------------->");
+                }
             }
             catch (Exception ex)
             {
@@ -336,8 +341,27 @@ namespace lab04
                 Console.WriteLine("Метод, в котором было вызвано исключение:" + ex.TargetSite);
                 Console.WriteLine("Имя объекта или сборки, которое вызвало исключение:" + ex.Source);
             }
-            
+            finally
+            {
+                Console.WriteLine("<----------------------------------------->");
+            }
 
+            /* Debugger.Break(); //точка останова
+             * Debugger.Launch();///присоед отладчик 
+            */
+
+              int n = 11;
+              Debug.Assert(n <= 10, "Недопустимое значение");
+
+              int[] aa = null;
+              Debug.Assert(aa != null, "Values array cannot be null");
+
+
+            Debug.Indent();                                                           //задает уровень отступа
+            Debug.WriteLine("Entering Main");
+            Console.WriteLine("Hello World.");                                        //Записывает значение метода ToString() объекта в прослушиватели трассировки в коллекции Listeners.
+            Debug.WriteLine("Exiting Main");
+            Debug.Unindent();
 
 
 

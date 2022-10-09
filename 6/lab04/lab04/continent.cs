@@ -29,7 +29,11 @@ namespace lab04
                 else if (value < 0)
                     throw new ArgumentDevLessThanZeroException("передано отрицательное число", 20);
                 else
+                {
                     square = value;
+                    
+                }
+                    
             }
         }
         public override string ToString()
