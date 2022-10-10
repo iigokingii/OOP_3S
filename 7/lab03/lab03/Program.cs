@@ -15,7 +15,7 @@ namespace lab03
 
 
 
-    public class stack<T>:Iuser<T>
+    public class stack<T>:Iuser<T> 
     {
         public class Production
         {
@@ -88,8 +88,17 @@ namespace lab03
             }
             else
             {
-                foreach(var tmp in list)
+                foreach(object tmp in list)
+                {
                     Console.WriteLine(tmp);
+                    if (tmp is Land)
+                    {
+                        Land lan;
+                        lan = (Land)tmp;
+                        Console.WriteLine($"Square:{lan.Square}, type of land:{lan.TypeOfLand}");
+                    }
+                }
+                    
             }
             
         }
@@ -251,6 +260,36 @@ namespace lab03
             return stack.list[middle];
         }
     }
+
+    class Land
+    {
+        protected int square;
+        public string TypeOfLand;
+        public Land() { }
+        public Land(int _square, string _typeOfLand)
+        {
+            Square = _square;
+            TypeOfLand = _typeOfLand;
+        }
+        public virtual int Square
+        {
+            get
+            {
+                return this.square;
+            }
+            set
+            {
+                this.square = value;
+            }
+        }
+        public virtual string ToString()
+        {
+            return $"type: land, square:{this.square}, type of land: {this.TypeOfLand}";
+        }
+
+    }
+
+
     class Program
     {
         static void Main(string[] args)
@@ -325,6 +364,22 @@ namespace lab03
 
 
                 Console.WriteLine($"top:{top}");
+                stack<object> l = new stack<object>();
+                Land land1 = new Land(42141231,"coal");
+                Land land2 = new Land(3123123, "ice");
+                l.Push(land1);
+                l.Push(land2);
+                Console.WriteLine("\nСтек с объектами Land:");
+                l.Print();
+
+
+
+
+
+
+
+
+
 
                 stack<string> st = new stack<string>();
                 st.Push("123");
