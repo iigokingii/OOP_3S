@@ -3,7 +3,19 @@ using System.Collections.Generic;
 
 namespace lab03
 {
-    public class stack<T>
+    interface Iuser<T>
+    {
+        void Push(T elem);  //добавление
+        void Clear();       //полное удаление
+        T Pop();            //извлечение и удаления
+        void Print();
+        bool Contains(T elem);
+    }
+
+
+
+
+    public class stack<T>:Iuser<T>
     {
         public class Production
         {
@@ -61,6 +73,7 @@ namespace lab03
         const int number = 10;
         public T[] array;
         public int counter = 0;
+       
         public stack()
         {
             array = new T[number];
@@ -68,6 +81,18 @@ namespace lab03
         public stack(int length)
         {
             array = new T[length];
+        }
+        public void Print()
+        {
+            int i = 1;
+            int tmp=counter;
+
+            while(counter!=0)
+            {
+                Console.WriteLine("Элемент "+i+" :"+array[--counter]) ;
+                i++;
+            }
+            counter = tmp;
         }
         public void Push(T elem)
         {
@@ -254,7 +279,12 @@ namespace lab03
                 else
                     Console.WriteLine($"don't include{a}");
                 bool b = stack1.Contains(2);
-                int c = stack1.Peek();
+                //int c = stack1.Peek();
+                stack1.Print();
+
+
+
+
                 int m = 412;
 
 
