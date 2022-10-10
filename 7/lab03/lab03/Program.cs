@@ -55,7 +55,7 @@ namespace lab03
                 }
                 set
                 {
-                    id = ID;
+                    id = value;
                 }
             }
             public string Department
@@ -70,7 +70,6 @@ namespace lab03
                 }
             }
         }
-        const int number = 10;
         public List<T> list;
        
         public stack()
@@ -83,7 +82,7 @@ namespace lab03
         }
         public void Print()
         {
-            if (list.Count-1 == 0)
+            if (list.Count == 0)
             {
                 throw new Exception("Пытаетесь вывести пустой стек");
             }
@@ -100,7 +99,7 @@ namespace lab03
         }
         public T Pop()
         {
-            if (list.Count-1 == 0)
+            if (list.Count == 0)
             {
                 throw new Exception("cтек пуст");
             }
@@ -123,7 +122,7 @@ namespace lab03
         }
         public T Peek()
         {
-            if (list.Count-1 == 0)
+            if (list.Count == 0)
                 throw new Exception("стек пуст");
             T result = list[list.Count-1] ;
             return result;
@@ -158,7 +157,7 @@ namespace lab03
         public static stack<int> operator > (stack<int> stack,stack <T> stack1)
         {
             stack<int> stack3 = new stack<int>();
-            int max = 0;
+            int max;
             int index = 0;
             int temp;
             for(int i=0;i<stack.list.Count;i++)
@@ -179,7 +178,7 @@ namespace lab03
             }
             for (int i = 0; i < stack.list.Count; i++)
             {
-                stack3.list[i] = stack.list[i];
+                stack3.Push(stack.list[i]);
             }
             return stack3;
         }
@@ -198,7 +197,7 @@ namespace lab03
             }
             for (int i = 0; i < stack.list.Count; i++)
             {
-                stack3.list[i] = stack.list[i];
+                stack3.Push(stack.list[i]);
             }
             return stack3;
         }
@@ -265,9 +264,11 @@ namespace lab03
                 stack1.Push(1000);
                 stack1.Push(100);
                 stack1.Push(110);
+
+                stack1.Push(125);
                 
-                //stack1.Push(125);
                 int top = stack1.Pop();
+                Console.WriteLine("Заполненный экземпляр стека: ");
                 stack1.Print();
                 bool a = stack1.Contains(122);
                 if (a)
@@ -275,18 +276,25 @@ namespace lab03
                 else
                     Console.WriteLine($"don't include{a}");
                 bool b = stack1.Contains(2);
-                //int c = stack1.Peek();
+                int c = stack1.Peek();
                 
                 int m = 412;
+                Console.WriteLine("\nПерегрузка +: ");
                 stack<int> result = stack1 + m;
+                result.Print();
+                Console.WriteLine("\nПерегрузка --: ");
                 stack1--;
+                stack1.Print();
+                Console.WriteLine("\nПерегрузка true");
                 if (stack1)
                     Console.WriteLine("стек пуст");
                 else
                     Console.WriteLine("стек не пуст");
-
                 stack<int> stack3 = new stack<int>();
-                //stack3= stack1 > stack3;
+                Console.WriteLine("\nПерегрузка >: ");
+                stack3=stack1 > stack3;
+                stack3.Print();
+
                 stack<string>.Production prod1 = new stack<string>.Production();
                 stack<int>.Production production = new stack<int>.Production(1, "GoKing");
                 stack<int>.Developer developer = new stack<int>.Developer();
@@ -294,29 +302,34 @@ namespace lab03
                 developer.FIO = "smolik valeriy Aleksandrovich";
                 developer.Department = "SoftWare";
 
+
                 int Sum = StatisticOperation.sum(stack1);
                 int Difference = StatisticOperation.difference(stack1);
                 int Counter = StatisticOperation.counter(stack1);
-                Console.WriteLine($"Sum:{Sum};\tDifference:{Difference};\t\tCounter:{Counter}");
+                Console.WriteLine($"\nSum:{Sum};\tDifference:{Difference};\t\tCounter:{Counter}");
+
                 string stroke = "Hello,World!I like ice-creem.My name is valera.How old are u?";
-                Console.WriteLine($"stroke:{stroke}");
+                Console.WriteLine($"\nstroke:{stroke}");
+
                 int numb = stroke.NumberOfSentences();
-                Console.WriteLine($"Number of sentences:{numb}");
+                Console.WriteLine($"\nNumber of sentences:{numb}");
+
                 int middle = stack1.MiddleElement();
-                Console.WriteLine($"Middle elem of stack1   :{middle}");
+                Console.WriteLine($"\nMiddle elem of stack1   :{middle}");
 
 
                 //stack1.Clear();
                 //int top1 = stack1.Pop();
                 
                 stack <int> stack4=stack1 > stack2;
+
+
                 Console.WriteLine($"top:{top}");
+
                 stack<string> st = new stack<string>();
+                st.Push("123");
+                st.Clear();
                 st.Print();
-
-
-
-
             }
             catch (Exception e)
             {
