@@ -71,47 +71,46 @@ namespace lab03
             }
         }
         const int number = 10;
-        public T[] array;
-        public int counter = 0;
+        public List<T> list;
        
         public stack()
         {
-            array = new T[number];
+            list = new List<T>();
         }
         public stack(int length)
         {
-            array = new T[length];
+            list = new List<T>(length);
         }
         public void Print()
         {
-            int i = 1;
-            int tmp=counter;
-
-            while(counter!=0)
+            if (list.Count-1 == 0)
             {
-                Console.WriteLine("Элемент "+i+" :"+array[--counter]) ;
-                i++;
+                throw new Exception("Пытаетесь вывести пустой стек");
             }
-            counter = tmp;
+            else
+            {
+                foreach(var tmp in list)
+                    Console.WriteLine(tmp);
+            }
+            
         }
         public void Push(T elem)
         {
-            array[counter] = elem;
-            counter++;
+            list.Add(elem);
         }
         public T Pop()
         {
-            if (counter == 0)
+            if (list.Count-1 == 0)
             {
                 throw new Exception("cтек пуст");
             }
-            T result = array[--counter];
-            array[counter] = default(T);
+            T result = list[list.Count-1];
+            list.RemoveAt(list.Count-1);
             return result;
         }
         public bool Contains(T elem)
         {
-            foreach (var arr in array)
+            foreach (var arr in list)
             {
                 if (arr.Equals(elem))
                     return true;
@@ -120,27 +119,22 @@ namespace lab03
         }
         public void Clear()
         {
-            for (int i = 0; i < counter; i++)
-            {
-                array[i] = default(T);
-            }
-            counter = 0;
+            list.Clear();
         }
         public T Peek()
         {
-            if (counter == 0)
+            if (list.Count-1 == 0)
                 throw new Exception("стек пуст");
-            T result = array[--counter];
-            counter++;
+            T result = list[list.Count-1] ;
             return result;
         }
         public void Extract()
         {
-            array[--counter]=default(T);
+            list.RemoveAt(list.Count - 1);
         }
         public bool IsEmpty()
         {
-            if (counter == 0)
+            if (list.Count-1 == 0)
                 return true;
             return false;
         }
@@ -167,25 +161,25 @@ namespace lab03
             int max = 0;
             int index = 0;
             int temp;
-            for(int i=0;i<stack.counter;i++)
+            for(int i=0;i<stack.list.Count;i++)
             {
                 max = 0;
-                for (int j = i; j < stack.counter; j++)
+                for (int j = i; j < stack.list.Count; j++)
                 {
-                    if (max < stack.array[j])
+                    if (max < stack.list[j])
                     {
-                        max = stack.array[j];
+                        max = stack.list[j];
                         index = j;
                     }
                        
                 }
-                temp = stack.array[i];
-                stack.array[i] = max;
-                stack.array[index]=temp;
+                temp = stack.list[i];
+                stack.list[i] = max;
+                stack.list[index]=temp;
             }
-            for (int i = 0; i < stack.counter; i++)
+            for (int i = 0; i < stack.list.Count; i++)
             {
-                stack3.array[i] = stack.array[i];
+                stack3.list[i] = stack.list[i];
             }
             return stack3;
         }
@@ -193,18 +187,18 @@ namespace lab03
         {
             stack<int> stack3 = new stack<int>();
             int min = 0;
-            for (int i = 0; i < stack.counter; i++)
+            for (int i = 0; i < stack.list.Count; i++)
             {
-                for (int j = 0; j < stack.counter; j++)
+                for (int j = 0; j < stack.list.Count; j++)
                 {
-                    if (min > stack.array[j])
-                        min = stack.array[j];
+                    if (min > stack.list[j])
+                        min = stack.list[j];
                 }
-                stack.array[i] = min;
+                stack.list[i] = min;
             }
-            for (int i = 0; i < stack.counter; i++)
+            for (int i = 0; i < stack.list.Count; i++)
             {
-                stack3.array[i] = stack.array[i];
+                stack3.list[i] = stack.list[i];
             }
             return stack3;
         }
@@ -214,9 +208,9 @@ namespace lab03
         public static int sum(stack<int> stack)
         {
             int sum = 0;
-            for (int i = 0; i < stack.counter; i++)
+            for (int i = 0; i < stack.list.Count; i++)
             {
-                sum += stack.array[i];
+                sum += stack.list[i];
             }
             return sum;
         }
@@ -224,19 +218,19 @@ namespace lab03
         {
             int max = 0;
             int min = 1000;
-            for (int i = 0; i < stack.counter; i++)
+            for (int i = 0; i < stack.list.Count; i++)
             {
-                if (max < stack.array[i])
-                    max = stack.array[i];
-                else if (min > stack.array[i])
-                    min = stack.array[i];
+                if (max < stack.list[i])
+                    max = stack.list[i];
+                else if (min > stack.list[i])
+                    min = stack.list[i];
             }
             int difference = max - min;
             return difference;
         }
         public static int counter(stack<int> stack)
         {
-            return stack.counter;
+            return stack.list.Count;
         }
        
     }
@@ -254,8 +248,8 @@ namespace lab03
         }
         public static int MiddleElement(this stack<int> stack)
         {
-            int middle = stack.counter / 2;
-            return stack.array[middle];
+            int middle = stack.list.Count / 2;
+            return stack.list[middle];
         }
     }
     class Program
@@ -271,8 +265,10 @@ namespace lab03
                 stack1.Push(1000);
                 stack1.Push(100);
                 stack1.Push(110);
+                
                 //stack1.Push(125);
                 int top = stack1.Pop();
+                stack1.Print();
                 bool a = stack1.Contains(122);
                 if (a)
                 Console.WriteLine($"include 122");
@@ -280,14 +276,8 @@ namespace lab03
                     Console.WriteLine($"don't include{a}");
                 bool b = stack1.Contains(2);
                 //int c = stack1.Peek();
-                stack1.Print();
-
-
-
-
+                
                 int m = 412;
-
-
                 stack<int> result = stack1 + m;
                 stack1--;
                 if (stack1)
@@ -321,7 +311,8 @@ namespace lab03
                 
                 stack <int> stack4=stack1 > stack2;
                 Console.WriteLine($"top:{top}");
-
+                stack<string> st = new stack<string>();
+                st.Print();
 
 
 
@@ -329,7 +320,15 @@ namespace lab03
             }
             catch (Exception e)
             {
+                Console.WriteLine("\nБлок catch:");
                 Console.WriteLine(e.Message);
+                Console.WriteLine(e.Source);
+                Console.WriteLine(e.TargetSite);
+                Console.WriteLine(e.StackTrace);
+            }
+            finally
+            {
+                Console.WriteLine("Конец лабораторной");
             }
         }
     }
