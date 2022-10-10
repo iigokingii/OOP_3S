@@ -346,22 +346,26 @@ namespace lab04
                 Console.WriteLine("<----------------------------------------->");
             }
 
-            /* Debugger.Break(); //точка останова
-             * Debugger.Launch();///присоед отладчик 
-            */
+
+
+           /* Debugger.Launch();       //присоед отладчик
+            Debugger.IsLogging();    //Проверяет, включено ли ведение журнала для присоединенного отладчика.
+            Debugger.Break();        //точка останова
+            
+           
 
               int n = 11;
-              Debug.Assert(n <= 10, "Недопустимое значение");
+              Debug.Assert(n < 1, "Недопустимое значение");                 //Проверяет условие. Если условие имеет значение false, выдается указанное сообщение и отображается окно сообщения со стеком вызовов.
 
               int[] aa = null;
               Debug.Assert(aa != null, "Values array cannot be null");
 
 
             Debug.Indent();                                                           //задает уровень отступа
-            Debug.WriteLine("Entering Main");
-            Console.WriteLine("Hello World.");                                        //Записывает значение метода ToString() объекта в прослушиватели трассировки в коллекции Listeners.
+            Debug.WriteLine("Entering Main");                                         //Записывает имя категории и значение метода ToString() объекта в прослушиватели трассировки в коллекции Listeners.
+            Console.WriteLine("Hello World.");                                      
             Debug.WriteLine("Exiting Main");
-            Debug.Unindent();
+            Debug.Unindent();*/
 
 
 
