@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
+using System.IO;
 
 namespace lab03
 {
@@ -17,6 +19,25 @@ namespace lab03
 
     public class stack<T>:Iuser<T> 
     {
+        public void WriteToFile()
+        {
+            StreamWriter writer = new StreamWriter("file.txt", false);
+            foreach(var tmp in list)
+            {
+                writer.Write($"{tmp}\n");
+            }
+            Console.WriteLine("Данные записаны: ");
+            writer.Close();
+        }
+
+        public void ReadFromFile()
+        {
+            
+            StreamReader reader = new StreamReader("file.txt");
+            Console.WriteLine("Считанные данные: ");
+            Console.WriteLine(reader.ReadToEnd());
+            reader.Close();
+        }
         public class Production
         {
             public int Id;
@@ -305,10 +326,12 @@ namespace lab03
                 stack1.Push(110);
 
                 stack1.Push(125);
-                
                 int top = stack1.Pop();
                 Console.WriteLine("Заполненный экземпляр стека: ");
                 stack1.Print();
+                stack1.WriteToFile();
+                Console.WriteLine();
+                stack1.ReadFromFile();
                 bool a = stack1.Contains(122);
                 if (a)
                 Console.WriteLine($"include 122");
@@ -371,16 +394,6 @@ namespace lab03
                 l.Push(land2);
                 Console.WriteLine("\nСтек с объектами Land:");
                 l.Print();
-
-
-
-
-
-
-
-
-
-
                 stack<string> st = new stack<string>();
                 st.Push("123");
                 st.Clear();
@@ -389,7 +402,7 @@ namespace lab03
             catch (Exception e)
             {
                 Console.WriteLine("\nБлок catch:");
-                Console.WriteLine(e.Message);
+                    Console.WriteLine(e.Message);
                 Console.WriteLine(e.Source);
                 Console.WriteLine(e.TargetSite);
                 Console.WriteLine(e.StackTrace);
