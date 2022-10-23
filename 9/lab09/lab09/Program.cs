@@ -162,16 +162,56 @@ namespace lab09
 
                     if (index == i)
                     {
-                        type.Enqueue(new DictionaryEntry(key, value));      //123123123123
+                        type.Enqueue(new DictionaryEntry(key, value));      
                         break;
                     }
                     type.Dequeue();
                 }
             }
         }
-       
-
-
+        public void RemoveAt(int index)
+        {
+            Queue temp = type;
+            object[] tmp = new object[temp.Count];
+                tmp=temp.ToArray();
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                if (i == index)
+                {
+                    tmp[index] = tmp[i+1];
+                    
+                }
+            }
+        }
+        public void Clear()
+        {
+            type.Clear();
+        }
+        public void Remove(object key)
+        {
+            RemoveAt(IndexOfKey(key));
+        }
+        public void CopyTo(Array arr,int index)
+        {
+            type.CopyTo(arr, index);
+        }
+        public void Insert(int index, object key, object value)
+        {
+            if (IndexOfKey(key) != -1)
+            {
+                throw new ArgumentException("An element with the same key already exists in the collection.");
+            }
+            object obj = new DictionaryEntry(key, value);
+            Queue temp = type;
+            for (int i = 0; i < temp.Count; i++)
+            {
+                if (i == index)
+                {
+                    type.Enqueue(obj);
+                }
+                type.Dequeue();
+            }
+        }
 
 
 
@@ -181,7 +221,7 @@ namespace lab09
 
 
     }
-    /*public class TypeEnum : IDictionaryEnumerator
+    public class TypeEnum : IDictionaryEnumerator
     {
         public Queue type;
         int position = -1;
@@ -230,8 +270,58 @@ namespace lab09
                 return (DictionaryEntry)Current;
             }
         }
+        public object Value
+        {
+            get
+            {
+                try
+                {
+                    Queue tmp = type;
+                    Queue res = new Queue();
+                    for (int i = 0; i < type.Count; i++)
+                    {
+                        tmp.Dequeue();
+                        if (i == position)
+                        {
+                            res.Enqueue(tmp.Dequeue());
+                        }
+                    }
+                    return (((DictionaryEntry)res.Dequeue()).Value);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
+        public object Key
+        {
+            get
+            {
+                try
+                {
+                    Queue tmp = type;
+                    Queue res = new Queue();
+                    for (int i = 0; i < type.Count; i++)
+                    {
+                        tmp.Dequeue();
+                        if (i == position)
+                        {
+                            res.Enqueue(tmp.Dequeue());
+                        }
+                    }
+                    return (((DictionaryEntry)res.Dequeue()).Key);
+                }
+                catch (IndexOutOfRangeException)
+                {
+                    throw new InvalidOperationException();
+                }
+            }
+        }
 
-    }*/
+
+
+    }   
 
 
 
