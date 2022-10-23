@@ -45,18 +45,18 @@ namespace Lab08
 
         public void Rename(string _name)
         {
-            Console.WriteLine("Метод rename");
+            Console.WriteLine($"Метод rename in {name}");
             name = _name;
         }
         public void NewVersion(string _version)
         {
-            Console.WriteLine("Метод newversion");
+            Console.WriteLine($"Метод newversion in {name}");
             version = _version;
         }
 
         public void addProperty(string _property)
         {
-            Console.WriteLine("Метод addProperty");
+            Console.WriteLine($"Метод addProperty in {name}");
             properties.Add(_property);
         }
     }
@@ -67,24 +67,35 @@ namespace Lab08
     {
         static void Main(string[] args)
         {
-            Programmer programmer1 = new Programmer("Ваня","3","ИСиТ");
+            Programmer programmer = new Programmer("Ваня","3","ИСиТ");
             Language lang1 = new Language("c#", "Полиморфизм", "11", "+");
 
-            programmer1.rename += lang1.Rename;
-            programmer1.Rename("java");
-            programmer1.rename -= lang1.Rename;
+            programmer.rename += lang1.Rename;
+            programmer.Rename("java");
+            programmer.rename -= lang1.Rename;
 
-            programmer1.newProperty += lang1.addProperty;         
-            programmer1.newproperty("Абстракция");
+            programmer.newProperty += lang1.addProperty;         
+            programmer.newproperty("Абстракция");
 
-            programmer1.rename += lang1.NewVersion;
-            programmer1.newVersion("10"); 
+            programmer.rename += lang1.NewVersion;
+            programmer.newVersion("10"); 
 
             Language lang2 = new Language("java", "Объектно-ориентированный", "16", "-");
-            programmer1.newProperty += lang2.addProperty;
-            programmer1.newproperty("Инкапсуляция");
+            
+            programmer.newProperty += lang2.addProperty;
+            programmer.newproperty("Инкапсуляция");
+            programmer.newProperty -= lang1.addProperty;
+
+            programmer.rename += lang2.Rename;
+            programmer.Rename("assembly");
+            programmer.rename -= lang1.Rename;
+            programmer.rename -= lang2.Rename;
 
             Language lang3 = new Language("с++", "Статически типизированный", "16.7", "/");
+
+            programmer.newProperty += lang3.addProperty;
+            programmer.newproperty("Компилируемый");
+            
 
 
 
