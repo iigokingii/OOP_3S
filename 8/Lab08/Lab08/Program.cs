@@ -6,7 +6,7 @@ namespace Lab08
     {
         string statement;
         string name;
-        string course;
+        public int course;
         string speciality;
         public delegate void method(string tmp);
         public event method? rename;
@@ -14,7 +14,7 @@ namespace Lab08
         public void Rename(string _name) => rename?.Invoke(_name);
         public void newproperty(string _property) => newProperty?.Invoke(_property);
         public void newVersion(string _version) => rename?.Invoke(_version);
-        public Programmer(string _name, string _course, string _speciality)
+        public Programmer(string _name, int _course, string _speciality)
         {
             name = _name;
             course = _course;
@@ -31,7 +31,9 @@ namespace Lab08
                 statement = value;
             }
         }
-        public void deleteT()
+
+
+        public void deleteT(Action <string> action)
         {
             for (int i = 0; i < statement.Length; i++)
             {
@@ -41,31 +43,52 @@ namespace Lab08
                     i++;
                 }
             }
+           action(statement);
         }
-        public void Upper()
+        public void ShowText(string text)
+        {
+            Console.WriteLine($"text: {text}");
+        }
+        public void Upper(Action<string> action)
         {
             statement = statement[0].ToString().ToUpper() + statement.Substring(1);
+            action(statement);
         }
 
-        public void add()
+
+        public bool isfour(int value,Predicate<int> predicate)
+        {
+            return predicate(value);
+        }
+
+
+
+
+
+
+
+        public void add(Func <string,string> func)
         {
             string add = "Gotovko ";
             int temp = statement.IndexOf("Vova");
             statement = statement.Insert(temp, add);
+            statement=func(statement);
+
         }
 
-        public void deleteSign()
+        public string deleteSign(string _statement)
         {
-            for (int i = 0; i < statement.Length; i++)
+            for (int i = 0; i < _statement.Length; i++)
             {
-                if (statement[i] == '?')
+                if (_statement[i] == '?')
                 {
-                    statement = statement.Remove(i, 1);
+                    _statement = _statement.Remove(i, 1);
                     i++;
                 }
             }
+            return _statement;
         }
-        public void deleteDot()
+        public void deleteDot(Action<string> action)
         {
             for (int i = 0; i < statement.Length; i++)
             {
@@ -93,7 +116,7 @@ namespace Lab08
             version = _version;
             operations.Add(_operation);
         }
-
+        
 
         public void Rename(string _name)
         {
@@ -120,7 +143,7 @@ namespace Lab08
     {
         static void Main(string[] args)
         {
-            Programmer programmer = new Programmer("Ваня","3","ИСиТ");
+            Programmer programmer = new Programmer("Ваня",3,"ИСиТ");
             Language lang1 = new Language("c#", "Полиморфизм", "11", "+");
 
             programmer.rename += lang1.Rename;
@@ -154,11 +177,21 @@ namespace Lab08
 
 
             programmer.Statement = "\thello! My\t na.me .is. Vo\tva.\t?";
-            programmer.deleteDot();
-            programmer.deleteT();
-            programmer.Upper();
-            programmer.add();
-            programmer.deleteSign();
+
+            //Action
+            programmer.deleteT(programmer.ShowText);
+            programmer.Upper(programmer.ShowText);
+            programmer.deleteDot(programmer.ShowText);
+
+            //Predicate
+            Console.WriteLine(programmer.isfour(programmer.course, delegate (int x) { return x == 4; })) ;
+
+            //Func
+            programmer.add(programmer.deleteSign) ;
+
+            
+
+
             
 
 
