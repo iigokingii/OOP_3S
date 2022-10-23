@@ -2,13 +2,9 @@
 using System.Collections.Generic;
 namespace Lab08
 {
-    enum operation
-    {
-        addOperation,
-        addProperty
-    }
     class Programmer
     {
+        string statement;
         string name;
         string course;
         string speciality;
@@ -18,12 +14,68 @@ namespace Lab08
         public void Rename(string _name) => rename?.Invoke(_name);
         public void newproperty(string _property) => newProperty?.Invoke(_property);
         public void newVersion(string _version) => rename?.Invoke(_version);
-        public Programmer(string _name, string _course,string _speciality)
+        public Programmer(string _name, string _course, string _speciality)
         {
             name = _name;
             course = _course;
             speciality = _speciality;
         }
+        public string Statement
+        {
+            get
+            {
+                return statement;
+            }
+            set
+            {
+                statement = value;
+            }
+        }
+        public void deleteT()
+        {
+            for (int i = 0; i < statement.Length; i++)
+            {
+                if (statement[i] == '\t')
+                {
+                    statement = statement.Remove(i, 1);
+                    i++;
+                }
+            }
+        }
+        public void Upper()
+        {
+            statement = statement[0].ToString().ToUpper() + statement.Substring(1);
+        }
+
+        public void add()
+        {
+            string add = "Gotovko ";
+            int temp = statement.IndexOf("Vova");
+            statement = statement.Insert(temp, add);
+        }
+
+        public void deleteSign()
+        {
+            for (int i = 0; i < statement.Length; i++)
+            {
+                if (statement[i] == '?')
+                {
+                    statement = statement.Remove(i, 1);
+                    i++;
+                }
+            }
+        }
+        public void deleteDot()
+        {
+            for (int i = 0; i < statement.Length; i++)
+            {
+                if (statement[i] == '.')
+                {
+                    statement = statement.Remove(i, 1);
+                    i++;
+                }
+            }
+        } 
 
     }
 
@@ -59,6 +111,7 @@ namespace Lab08
             Console.WriteLine($"Метод addProperty in {name}");
             properties.Add(_property);
         }
+
     }
 
 
@@ -95,7 +148,19 @@ namespace Lab08
 
             programmer.newProperty += lang3.addProperty;
             programmer.newproperty("Компилируемый");
+            programmer.newProperty -= lang1.NewVersion;
+            programmer.newProperty -= lang2.addProperty;
+            programmer.newProperty -= lang3.addProperty;
+
+
+            programmer.Statement = "\thello! My\t na.me .is. Vo\tva.\t?";
+            programmer.deleteDot();
+            programmer.deleteT();
+            programmer.Upper();
+            programmer.add();
+            programmer.deleteSign();
             
+
 
 
 
