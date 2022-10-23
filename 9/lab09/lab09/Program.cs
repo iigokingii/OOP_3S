@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 namespace lab09
 {
-    class Services : IOrderedDictionary,
+    class Services : IOrderedDictionary
     {
         Queue type;
         int counter = 0;
@@ -212,14 +212,22 @@ namespace lab09
                 type.Dequeue();
             }
         }
-
-
-
-
-
-
-
-
+        public IDictionaryEnumerator GetEnumerator()
+        {
+            return new TypeEnum(type);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new TypeEnum(type);
+        }
+        public bool Contains(object key)
+        {
+            if (IndexOfKey(key) != -1)
+            {
+                return true;
+            }
+            return false;
+        }
     }
     public class TypeEnum : IDictionaryEnumerator
     {

@@ -1,0 +1,14 @@
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.exe
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.deps.json
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.runtimeconfig.json
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.runtimeconfig.dev.json
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.dll
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\bin\Debug\netcoreapp3.1\lab09.pdb
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.csproj.AssemblyReference.cache
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.AssemblyInfoInputs.cache
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.AssemblyInfo.cs
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.csproj.CoreCompileInputs.cache
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.dll
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.pdb
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\9\lab09\lab09\obj\Debug\netcoreapp3.1\lab09.genruntimeconfig.cache
