@@ -133,16 +133,24 @@ namespace lab09
         }
         public void RemoveAt(int index)
         {
-            Queue temp = type;
-            object[] tmp = new object[temp.Count];
-                tmp=temp.ToArray();
+            object[] tmp = type.ToArray();
+            object[] temp = new object[type.Count -1];
+            int counter = 0;
             for (int i = 0; i < tmp.Length; i++)
             {
-                if (i == index)
+
+                if (index != i)
                 {
-                    tmp[index] = tmp[i+1];
-                    
+                    temp[counter++] = tmp[i];
                 }
+            }
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                type.Dequeue();
+            }
+            for (int i = 0; i < temp.Length; i++)
+            {
+                type.Enqueue(temp[i]);
             }
         }
         public void Clear()
@@ -188,7 +196,6 @@ namespace lab09
             {
                 type.Enqueue(temp[i]);
             }
-
         }
         public IDictionaryEnumerator GetEnumerator()
         {
@@ -230,18 +237,8 @@ namespace lab09
             {
                 try
                 {
-                    Queue result = new Queue();
-                    Queue temp = type;
-                    for (int i = 0; i < temp.Count; i++)
-                    {
-
-                        if (position == i)
-                        {
-                            result.Enqueue(temp.Dequeue());
-                        }
-                        temp.Dequeue();
-                    }
-                    return result.Dequeue();
+                    object[]tmp=type.ToArray();
+                    return tmp[position];
                 }
                 catch(IndexOutOfRangeException)
                 {
@@ -262,17 +259,8 @@ namespace lab09
             {
                 try
                 {
-                    Queue tmp = type;
-                    Queue res = new Queue();
-                    for (int i = 0; i < type.Count; i++)
-                    {
-                        tmp.Dequeue();
-                        if (i == position)
-                        {
-                            res.Enqueue(tmp.Dequeue());
-                        }
-                    }
-                    return (((DictionaryEntry)res.Dequeue()).Value);
+                    object[] tmp = type.ToArray();
+                    return ((DictionaryEntry)tmp[position]).Value;
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -318,44 +306,97 @@ namespace lab09
             services.Add(3, 777);
             services.Add(4, 222);
             services.Add(5, 666);
-            
-            bool contain = services.Contains(2);
-            DictionaryEntry[] array = new DictionaryEntry[services.Count];
-            int count = services.Count;
-            services.CopyTo(array, 0);
-            int index = services.IndexOfKey(3);
-            services.Insert(1,121,222228888);
-            bool IsFixedSize=services.IsFixedSize;
-            bool IsReadOnly=services.IsReadOnly;
-            bool IsSync=services.IsSynchronized;
-            var key=services.Keys;
-            var value = services.Values;
-            var t=services.GetEnumerator();
-            object Sync=services.SyncRoot;
-            services[1] = 123;
-            object Key = 3;
-            
+
             foreach (var temp in services)
             {
                 Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
             }
+            Console.WriteLine();
 
+            bool contain = services.Contains(2);
             if (contain)
                 Console.WriteLine("includes key 2");
             else
                 Console.WriteLine("doesn't include");
+            Console.WriteLine() ;
+            
+            int count = services.Count;
+            Console.WriteLine($"Services includes {count} elem");
+            Console.WriteLine();
+            
+            DictionaryEntry[] array = new DictionaryEntry[services.Count];
+            services.CopyTo(array, 0);
+            foreach (object temp in array)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+            }
+            Console.WriteLine();
 
 
+            int index = services.IndexOfKey(3);
+            Console.WriteLine($"index of key 3 is {index}");
+            Console.WriteLine();
+
+            services.Insert(1,121,222228888);
+            Console.WriteLine("after Insert");
+            foreach (object temp in services)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+            }
+
+            bool IsFixedSize=services.IsFixedSize;
+            bool IsReadOnly=services.IsReadOnly;
+            bool IsSync=services.IsSynchronized;
+            Console.WriteLine($"\nIs fixed size? {IsFixedSize}\nIs read only? {IsReadOnly}\nIs Synchronized? {IsSync}");
+            Console.WriteLine();
+
+            var key=services.Keys;
+            Console.WriteLine("Keys:");
+            foreach (object temp in key)
+            {
+                Console.WriteLine($"key: {temp}");
+            }
+            Console.WriteLine();
+
+            var value = services.Values;
+            Console.WriteLine("Values:");
+            foreach (object temp in key)
+            {
+                Console.WriteLine($"key: {temp}");
+            }
+
+            object Sync=services.SyncRoot;
+            
+            services[1] = 123;
+            Console.WriteLine("\nAfter adding by index");
+            foreach (object temp in services)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+            }
+            Console.WriteLine();
+
+            object Key = 3;
+            Console.WriteLine("test of object index");
             if ((int)services[Key] == 777)
                 Console.WriteLine("All good");
             else
                 Console.WriteLine("Not good");
 
-            services.RemoveAt(2);
+            services.RemoveAt(1);
+            Console.WriteLine("\nremoving by index 1");
+            foreach(object temp in services)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+            }
             services.Clear();
+            foreach (object temp in services)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+                Console.WriteLine("clear");
+            }
 
-           
-            
+
+
         }
     }
 }
