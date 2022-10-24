@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.Collections.Generic;
+using System.Collections.Concurrent;
 using System.Collections;
 namespace lab09
 {
@@ -469,6 +470,58 @@ namespace lab09
             services1.Clear();
             services2.Clear();
             Console.WriteLine("\nServices clear");
+
+
+            //2
+            Queue<int> q = new Queue<int>();
+            Random rand = new Random();
+            for (int i = 0; i < 10; i++)
+            {
+                q.Enqueue(i);
+            }
+            int[]arr = q.ToArray();
+            Console.WriteLine("Queue after random: ");
+            foreach(int tm in arr)
+            {
+                Console.WriteLine(tm);
+            }
+            Console.WriteLine();
+            int n=Convert.ToInt32(Console.ReadLine());
+            int[] arr1 = new int[arr.Length - n];
+            Array.Copy(arr,arr1, arr.Length - n);
+            q.Clear();
+            for (int i = 0; i < arr1.Length; i++)
+            {
+                q.Enqueue(arr1[i]);
+            }
+            Console.WriteLine("\nQueue after deleting: ");
+            foreach (int tm in arr1)
+            {
+                Console.WriteLine(tm);
+            }
+            int b;
+            for (int i = 0; i < 5; i++)
+            {
+                q.Enqueue(i);
+            }
+            
+            ConcurrentBag<int> CB = new ConcurrentBag<int>(q);
+            int[] mass=CB.ToArray();
+            Console.WriteLine("\nPrinting ConcurrentBag: ");
+            int c = 5;
+            int ind;
+            for (int i = 0; i < mass.Length; i++)
+            {
+                Console.WriteLine(mass[i]);
+                if (c == mass[i])
+                {
+                    ind = i;
+                }
+            }
+            
+            
+
+
         }
     }
 }
