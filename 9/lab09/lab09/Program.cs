@@ -293,6 +293,66 @@ namespace lab09
             }
         }
     }   
+    class ToRuleCollection
+    {
+        Queue queue;
+        public ToRuleCollection()
+        {
+            queue = new Queue();
+        }
+        public ToRuleCollection(int _number)
+        {
+            queue = new Queue(_number);
+        }
+        public void Add(Services serv)
+        {
+            queue.Enqueue(serv);
+        }
+        public void Insert(int index,Services serv)
+        {
+            object[] temp=queue.ToArray();
+            object[] tmp = new object[temp.Length+1];
+            int counter = 0;
+            for (int i = 0; i < temp.Length; i++)
+            {
+                if (i != index)
+                {
+                    tmp[counter++] = temp[i];
+                }
+                else
+                {
+                    tmp[counter++] = serv;
+                    tmp[counter++] = temp[i];
+                }
+            }
+            for (int i = 0; i < temp.Length; i++)
+            {
+                queue.Dequeue();
+            }
+            for (int i = 0; i < tmp.Length; i++)
+            {
+                queue.Enqueue(tmp[i]);
+            }
+        }
+        public void Clear()
+        {
+            queue.Clear();
+        }
+        
+        public Services Find(int index)
+        {
+            object[] temp=queue.ToArray();
+            return (Services)temp[index];
+        }
+    }
+
+
+
+
+
+
+
+
 
 
 
@@ -388,15 +448,27 @@ namespace lab09
             {
                 Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
             }
+            
+            Services services1 = new Services();
+            services1.Add("2", 123123);
+
+            Services services2 = new Services();
+
+            ToRuleCollection toRule = new ToRuleCollection();
+
+            toRule.Add(services);
+            toRule.Add(services2);
+            toRule.Insert(1, services1);
+            
+            var temporary=toRule.Find(1);
+
+            toRule.Clear();
+            Console.WriteLine();
+            Console.WriteLine("To rule clear");
             services.Clear();
-            foreach (object temp in services)
-            {
-                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
-                Console.WriteLine("clear");
-            }
-
-
-
+            services1.Clear();
+            services2.Clear();
+            Console.WriteLine("\nServices clear");
         }
     }
 }
