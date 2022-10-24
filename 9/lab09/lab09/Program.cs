@@ -7,7 +7,14 @@ namespace lab09
     class Services : IOrderedDictionary
     {
         Queue type;
-        int counter = 0;
+        public Services()
+        {
+            type = new Queue(10);
+        }
+        public Services(int number)
+        {
+            type = new Queue(number);
+        }
         public void Add(object key, object value)
         {
             type.Enqueue(new DictionaryEntry(key, value));
@@ -66,30 +73,28 @@ namespace lab09
         {
             get
             {
-                Queue temp = type;
-                Queue keyQueue = new Queue(type.Count);
-                for (int i = 0; i < temp.Count; i++)
+                object[] temp = new object[type.Count];
+                object[] tmp = type.ToArray();
+                for (int i = 0; i < temp.Length; i++)
                 {
-                    keyQueue.Enqueue(((DictionaryEntry)type.Dequeue()).Key);
+                    temp[i] = ((DictionaryEntry)tmp[i]).Key;
                 }
-                type = temp;
-                return keyQueue;
+                return temp;
             }
         }
         public int IndexOfKey(object key)
         {
-            Queue temp = type;
-            for (int i = 0; i < temp.Count; i++)
+            object[] tmp=type.ToArray();
+            for (int i = 0; i < tmp.Length; i++)
             {
-                type.Dequeue();
-                if (((DictionaryEntry)type.Dequeue()).Key == key)
+                
+                if ((int)(((DictionaryEntry)tmp[i]).Key) == (int)key)
                 {
-                    type = temp;
                     return i;
                 }
             }
             return -1;
-        }
+            }
         public object this[object key]
         {
             get
@@ -193,7 +198,8 @@ namespace lab09
         }
         public void CopyTo(Array arr,int index)
         {
-            type.CopyTo(arr, index);
+            object[] temp = type.ToArray();
+            temp.CopyTo(arr, index);
         }
         public void Insert(int index, object key, object value)
         {
@@ -201,16 +207,31 @@ namespace lab09
             {
                 throw new ArgumentException("An element with the same key already exists in the collection.");
             }
-            object obj = new DictionaryEntry(key, value);
-            Queue temp = type;
-            for (int i = 0; i < temp.Count; i++)
+            object[] tmp = type.ToArray();
+            object[] temp = new object[type.Count + 1];
+            int counter = 0;
+            for (int i = 0; i < tmp.Length; i++)
             {
-                if (i == index)
+
+                if (index != i)
                 {
-                    type.Enqueue(obj);
+                    temp[counter++] = tmp[i];
                 }
+                else
+                {
+                    temp[counter++] = new DictionaryEntry(key, value);
+                    temp[counter++] = tmp[i];
+                }                                       
+            }
+            for (int i = 0; i < tmp.Length; i++)
+            {
                 type.Dequeue();
             }
+            for (int i = 0; i < temp.Length; i++)
+            {
+                type.Enqueue(temp[i]);
+            }
+
         }
         public IDictionaryEnumerator GetEnumerator()
         {
@@ -326,9 +347,6 @@ namespace lab09
                 }
             }
         }
-
-
-
     }   
 
 
@@ -337,7 +355,45 @@ namespace lab09
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+            OrderedDictionary orderedDictionary = new OrderedDictionary();
+            orderedDictionary.Add(10, 1231);
+            orderedDictionary.Add(2, 441);
+            orderedDictionary.Add(3, 777);
+            orderedDictionary.Add(4, 222);
+            orderedDictionary.Add(5, 666);
+            DictionaryEntry[] array2 = new DictionaryEntry[orderedDictionary.Count];
+            orderedDictionary.CopyTo(array2, 0);
+
+
+            Services services = new Services();
+            services.Add(10, 1231);
+            services.Add(2, 441);
+            services.Add(3, 777);
+            services.Add(4, 222);
+            services.Add(5, 666);
+            bool contain=services.Contains(2);
+            DictionaryEntry[] array = new DictionaryEntry[services.Count];
+            int count = services.Count;
+            services.CopyTo(array, 0);
+            int index = services.IndexOfKey(3);
+            services.Insert(1,121,222228888);
+            bool IsFixedSize=services.IsFixedSize;
+            bool IsReadOnly=services.IsReadOnly;
+            bool IsSync=services.IsSynchronized;
+            var key=services.Keys;
+          
+            
+            
+            
+            
+            
+            
+            
+            
+            services.Clear();
+
+           
+            
         }
     }
 }
