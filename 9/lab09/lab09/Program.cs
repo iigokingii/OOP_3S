@@ -59,14 +59,13 @@ namespace lab09
         {
             get
             {
-                Queue temp = type;
-                Queue valueQueue = new Queue(type.Count);
-                for (int i = 0; i < temp.Count; i++)
+                object[] temp = new object[type.Count];
+                object[] tmp = type.ToArray();
+                for (int i = 0; i < temp.Length; i++)
                 {
-                    valueQueue.Enqueue(((DictionaryEntry)type.Dequeue()).Value);
+                    temp[i] = ((DictionaryEntry)tmp[i]).Value;
                 }
-                type = temp;
-                return valueQueue;
+                return temp;
             }
         }
         public ICollection Keys
@@ -99,18 +98,8 @@ namespace lab09
         {
             get
             {
-                int tmp = IndexOfKey(key);
-                Queue result = new Queue();
-                Queue temp = type;
-                for (int i = 0; i < type.Count; i++)
-                {
-                    if (tmp == i)
-                    {
-                        result.Enqueue(temp.Dequeue());
-                    }
-                    temp.Dequeue();
-                }
-                return ((DictionaryEntry)result.Dequeue()).Value;
+                object[] temp = type.ToArray();
+                return ((DictionaryEntry)temp[IndexOfKey(key)]).Value;
             }
             set
             {
@@ -134,44 +123,12 @@ namespace lab09
         {
             get
             {
-                Queue result = new Queue();
-                Queue temp = type;
-                for (int i = 0; i < type.Count; i++)
-                {
-
-                    if (index == i)
-                    {
-                        result.Enqueue(temp.Dequeue());
-                    }
-                    temp.Dequeue();
-                }
-                return ((DictionaryEntry)result.Dequeue()).Value;
+                object[] temp = type.ToArray();
+                return ((DictionaryEntry)temp[index]).Value;
             }
             set
             {
-                Queue result = new Queue();
-                Queue temp = type;
-                for (int i = 0; i < type.Count; i++)
-                {
-
-                    if (index == i)
-                    {
-                        result.Enqueue(temp.Dequeue());
-                    }
-                    temp.Dequeue();
-                }
-                object key = ((DictionaryEntry)result.Dequeue()).Key;
-                temp = type;
-                for (int i = 0; i < temp.Count; i++)
-                {
-
-                    if (index == i)
-                    {
-                        type.Enqueue(new DictionaryEntry(key, value));      
-                        break;
-                    }
-                    type.Dequeue();
-                }
+                Insert(index, index, value);               
             }
         }
         public void RemoveAt(int index)
@@ -355,23 +312,14 @@ namespace lab09
     {
         static void Main(string[] args)
         {
-            OrderedDictionary orderedDictionary = new OrderedDictionary();
-            orderedDictionary.Add(10, 1231);
-            orderedDictionary.Add(2, 441);
-            orderedDictionary.Add(3, 777);
-            orderedDictionary.Add(4, 222);
-            orderedDictionary.Add(5, 666);
-            DictionaryEntry[] array2 = new DictionaryEntry[orderedDictionary.Count];
-            orderedDictionary.CopyTo(array2, 0);
-
-
             Services services = new Services();
             services.Add(10, 1231);
             services.Add(2, 441);
             services.Add(3, 777);
             services.Add(4, 222);
             services.Add(5, 666);
-            bool contain=services.Contains(2);
+            
+            bool contain = services.Contains(2);
             DictionaryEntry[] array = new DictionaryEntry[services.Count];
             int count = services.Count;
             services.CopyTo(array, 0);
@@ -381,15 +329,29 @@ namespace lab09
             bool IsReadOnly=services.IsReadOnly;
             bool IsSync=services.IsSynchronized;
             var key=services.Keys;
-          
+            var value = services.Values;
+            var t=services.GetEnumerator();
+            object Sync=services.SyncRoot;
+            services[1] = 123;
+            object Key = 3;
             
-            
-            
-            
-            
-            
-            
-            
+            foreach (var temp in services)
+            {
+                Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
+            }
+
+            if (contain)
+                Console.WriteLine("includes key 2");
+            else
+                Console.WriteLine("doesn't include");
+
+
+            if ((int)services[Key] == 777)
+                Console.WriteLine("All good");
+            else
+                Console.WriteLine("Not good");
+
+            services.RemoveAt(2);
             services.Clear();
 
            
