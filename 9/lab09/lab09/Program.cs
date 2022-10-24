@@ -1,12 +1,14 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Specialized;
 using System.Collections.Generic;
 using System.Collections.Concurrent;
-using System.Collections;
+using System.Collections.ObjectModel;
 namespace lab09
 {
     class Services : IOrderedDictionary
     {
+        public string Name { get; set; }
         Queue type;
         public Services()
         {
@@ -466,10 +468,7 @@ namespace lab09
             toRule.Clear();
             Console.WriteLine();
             Console.WriteLine("To rule clear");
-            services.Clear();
-            services1.Clear();
-            services2.Clear();
-            Console.WriteLine("\nServices clear");
+            
 
 
             //2
@@ -518,9 +517,45 @@ namespace lab09
                     ind = i;
                 }
             }
-            
-            
 
+            //3
+            ObservableCollection<Services> observCol = new ObservableCollection<Services>();
+            services.Name = "ремонт";
+            services1.Name = "Обслуживание";
+            services2.Name = "Уборка";
+            observCol.Add(services);
+            
+            observCol.CollectionChanged += method;
+
+            observCol.Add(services1);
+            observCol.Add(services2);
+            
+            observCol.RemoveAt(1);
+
+
+            services.Clear();
+            services1.Clear();
+            services2.Clear();
+            Console.WriteLine("\nServices clear");
+
+            void method(object?sender,NotifyCollectionChangedEventArgs e)
+            {
+                switch (e.Action)
+                {
+                    case NotifyCollectionChangedAction.Add:
+                        {
+                            if(e.NewItems?[0] is Services newservice)
+                                Console.WriteLine($"Добавлен новый сервис: {newservice.Name}");
+                            break;
+                        }
+                    case NotifyCollectionChangedAction.Remove:
+                        {
+                            if (e.OldItems?[0] is Services oldservice)
+                                Console.WriteLine($"Удален сервис: {oldservice.Name}");
+                            break;
+                        }
+                }
+            }
 
         }
     }
