@@ -142,7 +142,10 @@ namespace lab10
     { 
         static void Main(string[] args)
         {
-           
+            string change(string type)
+            {
+                return type.Substring(0, 1).ToUpper() + type.Substring(1, type.Length - 1).ToLower();
+            }
             string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             string[] SummerOrWinter = { "January", "February", "June", "July", "August", "December" };
 
@@ -228,11 +231,13 @@ namespace lab10
             airlines.Add(flight9);
             airlines.Add(flight10);
 
-            /*Console.WriteLine("Введите куда нужно прилететь?");
+            Console.WriteLine("Введите куда нужно прилететь?");
             string temp=Console.ReadLine();
+            temp = change(temp);
 
             IEnumerable<Airline> ListOfFlights = airlines.Where(n => n.PointOfDeparture == temp)
-            .Select(n => n);
+                                                         .Select(n => n);
+
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nРейсы до {0}",temp) ;
             Console.ResetColor();
@@ -244,9 +249,11 @@ namespace lab10
 
             Console.WriteLine("Введите день недели, на который нужно искать билеты:");
             temp=Console.ReadLine();
+            temp = change(temp);
             IEnumerable<Airline> ListForDay = airlines
                                                     .Where(n => n.Day == temp)
                                                     .Select(n => n);
+
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nРейсы на {0}", temp);
             Console.ResetColor();
@@ -255,28 +262,52 @@ namespace lab10
                 Airline.Print(obj);
             }
 
-            IEnumerable<Airline> MaxDay = airlines.Where(n => n.Day == "Sunday")
-                                                   .Select(n =>n);
+            IEnumerable<Airline> MaxDay = airlines.Where(n => n.Day == airlines.Max(n=>n.Day))
+                                                  .Select(n =>n);
+
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nМаксимальны по дню неделт рейс:");
+            Console.WriteLine("\nМаксимальны по дню недели рейс:");
             Console.ResetColor();
-            foreach (Airline obj in ListForDay)
+            foreach (Airline obj in MaxDay)
             {
                 Airline.Print(obj);
-            }*/
+            }
+
+
             Console.WriteLine("Введите день недели, на который нужно искать билет:");
-            string temp = Console.ReadLine();
+            temp = Console.ReadLine();
 
 
             double t = airlines.Max(a => a.Time);
             IEnumerable<Airline> LastFlightInDay = airlines.Where(n => n.Day == temp || n.Time == airlines.Max(a => a.Time))
                                                            .Select(n => n);
 
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Все рейсы на {0} и самый поздний рейс в неделю",temp);
+            Console.ResetColor();
             foreach(Airline obj in LastFlightInDay)
             {
                 Airline.Print(obj);
             }
+            IEnumerable<Airline> OrderedByDayAndTime = airlines.OrderBy(n => n.Day).ThenBy(n=>n.Time);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("Упорядоченные по дню недели и времени :");
+            Console.ResetColor();
+            foreach(Airline obj in OrderedByDayAndTime)
+            {
+                Airline.Print(obj);
+            }
+
+            Console.WriteLine("Какой тип искать? ");
+            string type = Console.ReadLine();
+            type = change(type);
+            int count = airlines.Count(n => n.Type == type);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("{0} самолетов типа {1}",count,type);
+            Console.ResetColor();
+
+
+
         }
     }
 }
