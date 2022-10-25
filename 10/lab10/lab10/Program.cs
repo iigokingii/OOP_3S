@@ -7,10 +7,10 @@ namespace lab10
     {
         readonly string id = Guid.NewGuid().ToString();
         static int counter = 0;
-        static string type;
+        string type;
         string pointOfDeparture;
         int number;
-        const string time = "21:35";
+        string time = "21:35";
         string day;
         public Airline()
         {
@@ -19,29 +19,21 @@ namespace lab10
             day = "wed";
             counter++;
         }
-        public Airline(string point, int number, string day)
+        public Airline(string point, int number, string day,string _time)
         {
             this.pointOfDeparture = point;
             this.number = number;
             this.day = day;
+            time = _time;
             counter++;
         }
-        public Airline(int number, string day)
+        public Airline(int number, string day, string _time)
         {
             this.pointOfDeparture = "vileyka";
             this.number = number;
             this.day = day;
+            time = _time;
             counter++;
-        }
-        static Airline()
-        {
-            type = "luxe";
-        }
-        private Airline(string point, int number, string day, string constructor)
-        {
-            this.pointOfDeparture = point;
-            this.number = number;
-            this.day = day;
         }
         public override int GetHashCode()
         {
@@ -108,10 +100,13 @@ namespace lab10
         }
         public string Time
         {
-
             get
             {
                 return time;
+            }
+            set
+            {
+                time = value;
             }
         }
         public string Type
@@ -119,6 +114,10 @@ namespace lab10
             get
             {
                 return type;
+            }
+            set
+            {
+                type = value;
             }
         }
         public int Counter
@@ -128,7 +127,11 @@ namespace lab10
                 return counter;
             }
         }
-        public static void Print(Airline airline) => Console.WriteLine($"id:{airline.Id} type:{type} point of departure:{airline.pointOfDeparture} number:{airline.number} time:{time} day:{airline.day} №{counter}");
+
+        public static void Print(Airline airline) {
+            Console.WriteLine("\t\tFlight {0}",counter);
+            Console.WriteLine($" id:{airline.Id};\n type:{airline.type};\n point of departure:{airline.pointOfDeparture};\n number:{airline.number};\n time:{airline.time};\n day:{airline.day};\n №{counter}\n"); 
+        }
     }
 
 
@@ -162,12 +165,49 @@ namespace lab10
                 .Select(n =>n);
 
             Console.WriteLine() ;
+            List<Airline> airlines = new List<Airline>();
+
+            Airline flight1 = new Airline();
+            flight1.Day = "Friday";
+            flight1.Time = "13:52";
+            flight1.Number = 554;
+            flight1.Type = "First class";
+            Airline.Print(flight1);
+            Airline flight2 = new Airline();
+            flight2.Type = "Second class";
+            Airline.Print(flight2);
+            Airline flight3 = new Airline("LA", 2221111, "tue","4:21");
+            flight3.Type = "Luxe";
+            Airline.Print(flight3);
+            Airline flight4 = new Airline(666777, "sunday","6:57");
+            flight4.Type = "Second Class";
+            Airline.Print(flight4);
+            Airline flight5 = new Airline();
+            flight5.Number = 1177;
+            flight5.PointOfDeparture = "Brest";
+            flight5.Day = "sunday";
+            flight5.Time = "19:45";
+            flight5.Type = "Business";
+            Airline.Print(flight5);
+            Console.WriteLine();
+            Airline flight6 = new Airline("Valera1",1111, "Thursday1", "11:11");
+            flight6.Type = "Luxe";
+            Airline.Print(flight6);
+            Airline flight7 = new Airline("Klimovichi", 22, "Sunday", "14:50");
+            flight6.Type = "Luxe";
+            Airline.Print(flight6);
+            Airline flight8 = new Airline("Hoyniki", 34, "Monday", "11:11");
+            flight6.Type = "Luxe";
+            Airline.Print(flight6);
+            Airline flight9 = new Airline("Vileyka", 656, "Tuesday", "7:21");
+            flight6.Type = "Luxe";
+            Airline.Print(flight6);
+            Airline flight10 = new Airline("Ivye", 434, "Wednesday", "6:36");
+            flight6.Type = "Luxe";                  
+            Airline.Print(flight6);
 
 
 
-
-
-            
         }
     }
 }
