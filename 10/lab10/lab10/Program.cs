@@ -10,16 +10,16 @@ namespace lab10
         string type;
         string pointOfDeparture;
         int number;
-        string time = "21:35";
+        double time = 21.35;
         string day;
         public Airline()
         {
             pointOfDeparture = "Minsk";
             number = 222123;
-            day = "wed";
+            day = "Wednesday";
             counter++;
         }
-        public Airline(string point, int number, string day,string _time)
+        public Airline(string point, int number, string day,double _time)
         {
             this.pointOfDeparture = point;
             this.number = number;
@@ -27,9 +27,9 @@ namespace lab10
             time = _time;
             counter++;
         }
-        public Airline(int number, string day, string _time)
+        public Airline(int number, string day, double _time)
         {
-            this.pointOfDeparture = "vileyka";
+            this.pointOfDeparture = "Vileyka";
             this.number = number;
             this.day = day;
             time = _time;
@@ -98,7 +98,7 @@ namespace lab10
                 return id;
             }
         }
-        public string Time
+        public double Time
         {
             get
             {
@@ -129,17 +129,20 @@ namespace lab10
         }
 
         public static void Print(Airline airline) {
-            Console.WriteLine("\t\tFlight {0}",counter);
-            Console.WriteLine($" id:{airline.Id};\n type:{airline.type};\n point of departure:{airline.pointOfDeparture};\n number:{airline.number};\n time:{airline.time};\n day:{airline.day};\n №{counter}\n"); 
+            Console.ForegroundColor = ConsoleColor.Green;
+            Console.WriteLine("\t\tFlight");
+            Console.ResetColor();
+            Console.WriteLine($" id:{airline.Id};\n type:{airline.type};\n point of departure:{airline.pointOfDeparture};\n number:{airline.number};\n time:{airline.time};\n day:{airline.day};\n"); 
         }
     }
 
 
 
     class Program
-    {
+    { 
         static void Main(string[] args)
         {
+           
             string[] months = { "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" };
             string[] SummerOrWinter = { "January", "February", "June", "July", "August", "December" };
 
@@ -169,45 +172,111 @@ namespace lab10
 
             Airline flight1 = new Airline();
             flight1.Day = "Friday";
-            flight1.Time = "13:52";
+            flight1.Time = 13.52;
             flight1.Number = 554;
             flight1.Type = "First class";
             Airline.Print(flight1);
+
             Airline flight2 = new Airline();
             flight2.Type = "Second class";
             Airline.Print(flight2);
-            Airline flight3 = new Airline("LA", 2221111, "tue","4:21");
+
+            Airline flight3 = new Airline("LA", 2221111, "Tuesday",4.21);
             flight3.Type = "Luxe";
             Airline.Print(flight3);
-            Airline flight4 = new Airline(666777, "sunday","6:57");
+
+            Airline flight4 = new Airline(666777, "sunday",6.57);
             flight4.Type = "Second Class";
             Airline.Print(flight4);
+
             Airline flight5 = new Airline();
             flight5.Number = 1177;
             flight5.PointOfDeparture = "Brest";
-            flight5.Day = "sunday";
-            flight5.Time = "19:45";
+            flight5.Day = "Sunday";
+            flight5.Time = 19.45;
             flight5.Type = "Business";
             Airline.Print(flight5);
-            Console.WriteLine();
-            Airline flight6 = new Airline("Valera1",1111, "Thursday1", "11:11");
+
+            Airline flight6 = new Airline("Minsk",4432, "Thursday", 11.11);
             flight6.Type = "Luxe";
-            Airline.Print(flight6);
-            Airline flight7 = new Airline("Klimovichi", 22, "Sunday", "14:50");
-            flight6.Type = "Luxe";
-            Airline.Print(flight6);
-            Airline flight8 = new Airline("Hoyniki", 34, "Monday", "11:11");
-            flight6.Type = "Luxe";
-            Airline.Print(flight6);
-            Airline flight9 = new Airline("Vileyka", 656, "Tuesday", "7:21");
-            flight6.Type = "Luxe";
-            Airline.Print(flight6);
-            Airline flight10 = new Airline("Ivye", 434, "Wednesday", "6:36");
-            flight6.Type = "Luxe";                  
             Airline.Print(flight6);
 
+            Airline flight7 = new Airline("Klimovichi", 22, "Sunday", 14.50);
+            flight7.Type = "Second class";
+            Airline.Print(flight7);
+
+            Airline flight8 = new Airline("Hoyniki", 34, "Monday", 12.24);
+            flight8.Type = "Luxe";
+            Airline.Print(flight8);
+
+            Airline flight9 = new Airline("Vileyka", 656, "Tuesday", 7.21);
+            flight9.Type = "Business";  
+            Airline.Print(flight9);
+
+            Airline flight10 = new Airline("Ivye", 434, "Wednesday", 6.36);
+            flight10.Type = "First class";                  
+            Airline.Print(flight10);
+
+            airlines.Add(flight1);
+            airlines.Add(flight2);
+            airlines.Add(flight3);
+            airlines.Add(flight4);
+            airlines.Add(flight5);
+            airlines.Add(flight6);
+            airlines.Add(flight7);
+            airlines.Add(flight8);
+            airlines.Add(flight9);
+            airlines.Add(flight10);
+
+            /*Console.WriteLine("Введите куда нужно прилететь?");
+            string temp=Console.ReadLine();
+
+            IEnumerable<Airline> ListOfFlights = airlines.Where(n => n.PointOfDeparture == temp)
+            .Select(n => n);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nРейсы до {0}",temp) ;
+            Console.ResetColor();
+            foreach(Airline obj in ListOfFlights)
+            {
+                Airline.Print(obj);
+            }
 
 
+            Console.WriteLine("Введите день недели, на который нужно искать билеты:");
+            temp=Console.ReadLine();
+            IEnumerable<Airline> ListForDay = airlines
+                                                    .Where(n => n.Day == temp)
+                                                    .Select(n => n);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nРейсы на {0}", temp);
+            Console.ResetColor();
+            foreach (Airline obj in ListForDay)
+            {
+                Airline.Print(obj);
+            }
+
+            IEnumerable<Airline> MaxDay = airlines.Where(n => n.Day == "Sunday")
+                                                   .Select(n =>n);
+            Console.ForegroundColor = ConsoleColor.Yellow;
+            Console.WriteLine("\nМаксимальны по дню неделт рейс:");
+            Console.ResetColor();
+            foreach (Airline obj in ListForDay)
+            {
+                Airline.Print(obj);
+            }*/
+            Console.WriteLine("Введите день недели, на который нужно искать билет:");
+            string temp = Console.ReadLine();
+
+
+            double t = airlines.Max(a => a.Time);
+            IEnumerable<Airline> LastFlightInDay = airlines.Where(n => n.Day == temp || n.Time == airlines.Max(a => a.Time))
+                                                           .Select(n => n);
+
+            Console.WriteLine("Все рейсы на {0} и самый поздний рейс в неделю",temp);
+            foreach(Airline obj in LastFlightInDay)
+            {
+                Airline.Print(obj);
+            }
         }
     }
 }
