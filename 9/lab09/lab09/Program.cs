@@ -296,14 +296,14 @@ namespace lab09
             }
         }
     }   
-    class ToRuleCollection
+    class control
     {
         Queue queue;
-        public ToRuleCollection()
+        public control()
         {
             queue = new Queue();
         }
-        public ToRuleCollection(int _number)
+        public control(int _number)
         {
             queue = new Queue(_number);
         }
@@ -457,7 +457,7 @@ namespace lab09
 
             Services services2 = new Services();
 
-            ToRuleCollection toRule = new ToRuleCollection();
+            control toRule = new control();
 
             toRule.Add(services);
             toRule.Add(services2);
