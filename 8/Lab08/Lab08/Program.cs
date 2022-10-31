@@ -31,8 +31,6 @@ namespace Lab08
                 statement = value;
             }
         }
-
-
         public void deleteT(Action <string> action)
         {
             for (int i = 0; i < statement.Length; i++)
@@ -45,27 +43,13 @@ namespace Lab08
             }
            action(statement);
         }
-        public void ShowText(string text)
-        {
-            Console.WriteLine($"text: {text}");
-        }
+        public void ShowText(string text)=> Console.WriteLine($"text: {text}");
         public void Upper(Action<string> action)
         {
             statement = statement[0].ToString().ToUpper() + statement.Substring(1);
             action(statement);
         }
-
-
-        public bool isfour(int value,Predicate<int> predicate)
-        {
-            return predicate(value);
-        }
-
-
-
-
-
-
+        public bool isfour(int value, Predicate<int> predicate) => predicate(value);
 
         public void add(Func <string,string> func)
         {
@@ -136,9 +120,6 @@ namespace Lab08
         }
 
     }
-
-
-
     class Program
     {
         static void Main(string[] args)
@@ -187,19 +168,7 @@ namespace Lab08
             Console.WriteLine(programmer.isfour(programmer.course, delegate (int x) { return x == 4; })) ;
 
             //Func
-            programmer.add(programmer.deleteSign) ;
-
-            
-
-
-            
-
-
-
-
-
-
-
+            programmer.add(programmer.deleteSign) ;           
         }
     }
 }
