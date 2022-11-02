@@ -2,23 +2,60 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace lab11
 {
     static class Reflector
     {
+        static public void WriteInit(IEnumerable<string> stroke,string rootNode,string name,string secondNode,string thirdNode)
+        {
+            XDocument xdoc = new XDocument();
+            XElement type = new XElement($"{name}");
+
+            XElement xElement = new XElement($"{secondNode}");
+            foreach (string tmp in stroke)
+            {
+                xElement.Add(new XElement($"{thirdNode}", tmp));
+            }
+            XElement reflector = new XElement($"{rootNode}");
+            type.Add(xElement);
+            reflector.Add(type);
+            xdoc.Add(reflector);
+            xdoc.Save("Reflector.xml");
+        }
+        static public void write(IEnumerable<string> stroke,string name,string secondNode,string thirdNode)//класс (xmlnode)
+        {
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.Load("Reflector.xml");
+            
+            XmlElement? root = (XmlElement)xdoc.SelectSingleNode($"Reflector/{name}");
+            XmlElement xmlElement = xdoc.CreateElement($"{secondNode}");    //новый элемент(3-ий)
+            foreach(string tmp in stroke)
+            {
+                XmlElement element = xdoc.CreateElement($"{thirdNode}");
+                XmlText text = xdoc.CreateTextNode($"{tmp}");
+                element.AppendChild(text);
+                xmlElement.AppendChild(element);
+            }
+            root?.AppendChild(xmlElement);
+            xdoc.Save("Reflector.xml");
+        }
         static public IEnumerable<string> Interfaces(Type obj)
         {
             Console.WriteLine("\nInterfaces of {0}",obj.Name);
+            List<string> stroka = new List<string>();
             IEnumerable<string> stroke = obj.GetInterfaces()
                                             .Where(n => n is Type)
                                             .Select(n => ((Type)n).Name);
             foreach(string str in stroke)
             {
                 Console.WriteLine(str);
-            }            
-            return stroke;           
-             
+                stroka.Add(str);
+            }
+            WriteInit(stroke, "Reflector",$"{obj.Name}", $"Interfaces", "Interface");
+            return stroke;
         }
 
         static public IEnumerable<string> Methods(Type obj)
@@ -31,6 +68,7 @@ namespace lab11
             {
                 Console.WriteLine(str);
             }
+            write(stroke,$"{ obj.Name}", "Methods", "Method");
             return stroke;
         }
 
@@ -48,20 +86,33 @@ namespace lab11
             {
                 Console.WriteLine(tmp);
             }
+            write(stroke1, $"{ obj.Name}", "Properties", "Property");
+            write(stroke2, $"{ obj.Name}", "Fields", "Field");
             return stroke;
         }
-        static public void Assembly(Assembly assembly)
+        static public void Assembly(Assembly assembly, Type obj)
         {
             Console.WriteLine("Name of Assembly,classes: ");
+            string tmp="";
             Console.WriteLine(assembly.FullName);
             foreach (Module module in assembly.GetModules())
             {
                 Console.WriteLine(module.FullyQualifiedName);
+                tmp = module.FullyQualifiedName;
                 foreach (Type type in module.GetTypes())
                 {
                     Console.WriteLine(type.FullName);
                 }
             }
+            XmlDocument xml = new XmlDocument();
+            xml.Load("Reflector.xml");
+            XmlElement? root = (XmlElement)xml.SelectSingleNode($"Reflector/{obj.Name}");
+            XmlElement ass = xml.CreateElement("Assembly");
+            XmlText text = xml.CreateTextNode($"{tmp}");
+            ass.AppendChild(text);
+            root?.AppendChild(ass);
+            xml.Save("Reflector.xml");
+
         }
         static public bool ConstructorInfo(Type obj)    //доп тесты
         {
@@ -88,6 +139,10 @@ namespace lab11
                 }
             }
             
+
+
+
+            
         }
     }
 
@@ -97,9 +152,9 @@ namespace lab11
         {
             Assembly assembly = Assembly.GetExecutingAssembly();
 
-            Reflector.Assembly(assembly);
-
             Type t = typeof(Int32);
+            
+           
 
             Reflector.Interfaces(t);
 
@@ -115,7 +170,8 @@ namespace lab11
                 Console.WriteLine("Не содержит публичный конструктор");
 
             Console.WriteLine() ;
-            
+            Reflector.Assembly(assembly, t);
+
         }
     }
 }

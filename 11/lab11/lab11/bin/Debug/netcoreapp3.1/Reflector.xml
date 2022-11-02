@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Reflector>
+  <Int32>
+    <Interfaces>
+      <Interface>IComparable</Interface>
+      <Interface>IConvertible</Interface>
+      <Interface>IFormattable</Interface>
+      <Interface>IComparable`1</Interface>
+      <Interface>IEquatable`1</Interface>
+      <Interface>ISpanFormattable</Interface>
+    </Interfaces>
+    <Methods>
+      <Method>CompareTo</Method>
+      <Method>CompareTo</Method>
+      <Method>Equals</Method>
+      <Method>Equals</Method>
+      <Method>GetHashCode</Method>
+      <Method>ToString</Method>
+      <Method>ToString</Method>
+      <Method>ToString</Method>
+      <Method>ToString</Method>
+      <Method>TryFormat</Method>
+      <Method>GetTypeCode</Method>
+      <Method>GetType</Method>
+    </Methods>
+    <Properties />
+    <Fields>
+      <Field>MaxValue</Field>
+      <Field>MinValue</Field>
+    </Fields>
+    <Assembly>C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\11\lab11\lab11\bin\Debug\netcoreapp3.1\lab11.dll</Assembly>
+  </Int32>
+</Reflector>
