@@ -9,59 +9,50 @@ namespace lab11
     {
         static public IEnumerable<string> Interfaces(Type obj)
         {
-            /*Console.WriteLine("Full name : " + obj.FullName);
-            Console.WriteLine("Full name : " + obj.Name);
-            Console.WriteLine("Base type : "+ obj.BaseType);
-            Console.WriteLine("Is sealed : "+ obj.IsSealed);
-            Console.WriteLine("Is class : "+ obj.IsClass);*/
-            Console.WriteLine("Interfaces of {0}",obj.Name);
-            List<string> arr = new List<string>();
-            foreach (Type iType in obj.GetInterfaces())
+            Console.WriteLine("\nInterfaces of {0}",obj.Name);
+            IEnumerable<string> stroke = obj.GetInterfaces()
+                                            .Where(n => n is Type)
+                                            .Select(n => ((Type)n).Name);
+            foreach(string str in stroke)
             {
-                Console.WriteLine(iType.Name);
-                arr.Add(iType.Name);
-            }
-            IEnumerable<string> str = arr;
-            return str;
+                Console.WriteLine(str);
+            }            
+            return stroke;           
+             
         }
 
         static public IEnumerable<string> Methods(Type obj)
         {
             Console.WriteLine("\n methods of {0}",obj.Name);
-            List<string> arr = new List<string>();
-            foreach (MethodInfo method in obj.GetMethods())
+            IEnumerable<string> stroke =(IEnumerable<string>)obj.GetMethods(BindingFlags.Public|BindingFlags.Instance)
+                                            .Where(n => n is MethodInfo)
+                                            .Select(n => ((MethodInfo)n).Name);
+            foreach (string str in stroke)
             {
-                Console.WriteLine($"{method.ReturnType.Name} {method.Name}");
-                arr.Add(method.Name);
+                Console.WriteLine(str);
             }
-            IEnumerable<string> str = arr;
-            return str;
+            return stroke;
         }
 
-        static public void PropertiesAndFields(Type obj)
+        static public IEnumerable<string> PropertiesAndFields(Type obj)
         {
-            Console.WriteLine("\nProperties and fields of {0}",obj.Name);
-            foreach(PropertyInfo property in obj.GetProperties())
+            Console.WriteLine("\nProperties and fields of {0}", obj.Name);
+            IEnumerable<string> stroke1 = (IEnumerable<string>)obj .GetProperties()
+                                                                  .Where(n => n is PropertyInfo)
+                                                                  .Select(n => ((PropertyInfo)n).Name);      //протестить
+            IEnumerable<string> stroke2 = (IEnumerable<string>)obj.GetFields()
+                                                                  .Where(n => n is FieldInfo)
+                                                                  .Select(n => ((FieldInfo)n).Name);
+            IEnumerable<string> stroke = stroke1.Concat(stroke2);
+            foreach(string tmp in stroke)
             {
-                Console.WriteLine($"{property.PropertyType} {property.Name}");
+                Console.WriteLine(tmp);
             }
-            foreach(FieldInfo field in obj.GetFields())
-            {
-                Console.WriteLine($"{field.FieldType} {field.Name}");
-            }
-
+            return stroke;
         }
-
-
-
-    }
-
-    class Program
-    {
-        static void Main(string[] args)
+        static public void Assembly(Assembly assembly)
         {
-
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Console.WriteLine("Name of Assembly,classes: ");
             Console.WriteLine(assembly.FullName);
             foreach (Module module in assembly.GetModules())
             {
@@ -71,11 +62,60 @@ namespace lab11
                     Console.WriteLine(type.FullName);
                 }
             }
+        }
+        static public bool ConstructorInfo(Type obj)    //доп тесты
+        {
+            foreach(ConstructorInfo constructor in obj.GetConstructors())
+            {
+                if (constructor.IsPublic)
+                    return true;
+            }
+            return false;
+        }
+
+        static public void Methods(Type obj,string param)   //протестить
+        {
+            Console.WriteLine("\nMethods of class {0},that contain \"{1}\":",obj.Name,param);
+            foreach(MethodInfo MI in obj.GetMethods())
+            {
+                ParameterInfo[]PI= MI.GetParameters();
+                for (int i = 0; i < PI.Length; i++)
+                {
+                    if (PI[i].ParameterType.Name ==param)
+                    {
+                        Console.WriteLine($"{MI.ReturnType.Name} {MI.Name} ({PI[i].ParameterType.Name} {PI[i].Name})");
+                    }
+                }
+            }
+            
+        }
+    }
+
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Assembly assembly = Assembly.GetExecutingAssembly();
+
+            Reflector.Assembly(assembly);
+
             Type t = typeof(Int32);
+
             Reflector.Interfaces(t);
+
             Reflector.Methods(t);
+
             Reflector.PropertiesAndFields(t);
 
+            Reflector.Methods(t, "Object");
+
+            if (Reflector.ConstructorInfo(t))
+                Console.WriteLine("Содержит публичный конструктор");
+            else
+                Console.WriteLine("Не содержит публичный конструктор");
+
+            Console.WriteLine() ;
+            
         }
     }
 }
