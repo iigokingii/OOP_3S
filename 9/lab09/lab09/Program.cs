@@ -29,14 +29,14 @@ namespace lab09
                 return type.Count;
             }
         }
-        public bool IsSynchronized
+        public bool IsSynchronized      //Является ли потокобезопасным
         {
             get
             {
                 return type.IsSynchronized;
             }
         }
-        public object SyncRoot
+        public object SyncRoot          //Объект,который может быть использован для синхронизации
         {
             get
             {
@@ -106,22 +106,18 @@ namespace lab09
             }
             set
             {
-                int tmp = IndexOfKey(key);
-                Queue result = new Queue();
-                Queue temp = type;
-                for (int i = 0; i < temp.Count; i++)
+                object []temp = type.ToArray();
+                temp[IndexOfKey(key)]= new DictionaryEntry(key, value);
+                for (int i = 0; i < temp.Length; i++)
                 {
-
-                    if (tmp == i)
-                    {
-                        type.Dequeue();
-                        type.Enqueue(new DictionaryEntry(key, value));//
-                    }
                     type.Dequeue();
+                }
+                for (int i = 0; i < temp.Length; i++)
+                {
+                    type.Enqueue(temp[i]);
                 }
             }
         }
-
         public object this[int index]
         {
             get
@@ -200,14 +196,6 @@ namespace lab09
                 type.Enqueue(temp[i]);
             }
         }
-        public IDictionaryEnumerator GetEnumerator()
-        {
-            return new TypeEnum(type);
-        }
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return new TypeEnum(type);
-        }
         public bool Contains(object key)
         {
             if (IndexOfKey(key) != -1)
@@ -216,6 +204,15 @@ namespace lab09
             }
             return false;
         }
+        public IDictionaryEnumerator GetEnumerator()
+        {
+            return new TypeEnum(type);
+        }
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return new TypeEnum(type);
+        }
+       
     }
     public class TypeEnum : IDictionaryEnumerator
     {
@@ -243,9 +240,9 @@ namespace lab09
                     object[]tmp=type.ToArray();
                     return tmp[position];
                 }
-                catch(IndexOutOfRangeException)
+                catch(IndexOutOfRangeException) 
                 {
-                    throw new InvalidCastException();
+                    throw new InvalidCastException();   //недопустимое приведения или явного преобразование.
                 }
             }
         }
@@ -277,17 +274,8 @@ namespace lab09
             {
                 try
                 {
-                    Queue tmp = type;
-                    Queue res = new Queue();
-                    for (int i = 0; i < type.Count; i++)
-                    {
-                        tmp.Dequeue();
-                        if (i == position)
-                        {
-                            res.Enqueue(tmp.Dequeue());
-                        }
-                    }
-                    return (((DictionaryEntry)res.Dequeue()).Key);
+                    object[] temp = type.ToArray();
+                    return ((DictionaryEntry)temp[position]).Value;
                 }
                 catch (IndexOutOfRangeException)
                 {
@@ -348,17 +336,6 @@ namespace lab09
             return (Services)temp[index];
         }
     }
-
-
-
-
-
-
-
-
-
-
-
     class Program
     {
         static void Main(string[] args)
@@ -369,7 +346,8 @@ namespace lab09
             services.Add(3, 777);
             services.Add(4, 222);
             services.Add(5, 666);
-
+            object p = 5;
+            services[p] = 724;
             foreach (var temp in services)
             {
                 Console.WriteLine($"key: {((DictionaryEntry)temp).Key}-->value: {((DictionaryEntry)temp).Value}");
@@ -473,18 +451,18 @@ namespace lab09
 
             //2
             Queue<int> q = new Queue<int>();
-            Random rand = new Random();
             for (int i = 0; i < 10; i++)
             {
                 q.Enqueue(i);
             }
             int[]arr = q.ToArray();
-            Console.WriteLine("Queue after random: ");
+            Console.WriteLine("Queue : ");
             foreach(int tm in arr)
             {
                 Console.WriteLine(tm);
             }
             Console.WriteLine();
+            Console.WriteLine("Сколько элементов удалить? ");
             int n=Convert.ToInt32(Console.ReadLine());
             int[] arr1 = new int[arr.Length - n];
             Array.Copy(arr,arr1, arr.Length - n);
@@ -507,8 +485,8 @@ namespace lab09
             ConcurrentBag<int> CB = new ConcurrentBag<int>(q);
             int[] mass=CB.ToArray();
             Console.WriteLine("\nPrinting ConcurrentBag: ");
-            int c = 5;
-            int ind;
+            int c = 5;      //заданное значение
+            int ind=0;        
             for (int i = 0; i < mass.Length; i++)
             {
                 Console.WriteLine(mass[i]);
@@ -517,27 +495,28 @@ namespace lab09
                     ind = i;
                 }
             }
-
+            Console.WriteLine("\nиндекс заданного значения {0}: {1}",c,(ind+1));
             //3
             ObservableCollection<Services> observCol = new ObservableCollection<Services>();
             services.Name = "ремонт";
-            services1.Name = "Обслуживание";
+            services1.Name = "Обслуживание";   
             services2.Name = "Уборка";
-            observCol.Add(services);
             
+            observCol.Add(services);
+         
             observCol.CollectionChanged += method;
 
             observCol.Add(services1);
             observCol.Add(services2);
             
             observCol.RemoveAt(1);
-
-
+    
             services.Clear();
             services1.Clear();
             services2.Clear();
+            
             Console.WriteLine("\nServices clear");
-
+        
             void method(object?sender,NotifyCollectionChangedEventArgs e)
             {
                 switch (e.Action)

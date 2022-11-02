@@ -232,23 +232,23 @@ namespace lab10
             airlines.Add(flight10);
 
             Console.WriteLine("Введите куда нужно прилететь?");
-            string temp=Console.ReadLine();
+            string temp = Console.ReadLine();
             temp = change(temp);
 
             IEnumerable<Airline> ListOfFlights = airlines.Where(n => n.PointOfDeparture == temp)
                                                          .Select(n => n);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("\nРейсы до {0}",temp) ;
+            Console.WriteLine("\nРейсы до {0}", temp);
             Console.ResetColor();
-            foreach(Airline obj in ListOfFlights)
+            foreach (Airline obj in ListOfFlights)
             {
                 Airline.Print(obj);
             }
 
 
             Console.WriteLine("Введите день недели, на который нужно искать билеты:");
-            temp=Console.ReadLine();
+            temp = Console.ReadLine();
             temp = change(temp);
             IEnumerable<Airline> ListForDay = airlines
                                                     .Where(n => n.Day == temp)
@@ -262,8 +262,8 @@ namespace lab10
                 Airline.Print(obj);
             }
 
-            IEnumerable<Airline> MaxDay = airlines.Where(n => n.Day == airlines.Max(n=>n.Day))
-                                                  .Select(n =>n);
+            IEnumerable<Airline> MaxDay = airlines.Where(n => n.Day == airlines.Max(n => n.Day))
+                                                  .Select(n => n);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("\nМаксимальны по дню недели рейс:");
@@ -283,17 +283,17 @@ namespace lab10
                                                            .Select(n => n);
 
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("Все рейсы на {0} и самый поздний рейс в неделю",temp);
+            Console.WriteLine("Все рейсы на {0} и самый поздний рейс в неделю", temp);
             Console.ResetColor();
-            foreach(Airline obj in LastFlightInDay)
+            foreach (Airline obj in LastFlightInDay)
             {
                 Airline.Print(obj);
             }
-            IEnumerable<Airline> OrderedByDayAndTime = airlines.OrderBy(n => n.Day).ThenBy(n=>n.Time);
+            IEnumerable<Airline> OrderedByDayAndTime = airlines.OrderBy(n => n.Day).ThenBy(n => n.Time);
             Console.ForegroundColor = ConsoleColor.Yellow;
             Console.WriteLine("Упорядоченные по дню недели и времени :");
             Console.ResetColor();
-            foreach(Airline obj in OrderedByDayAndTime)
+            foreach (Airline obj in OrderedByDayAndTime)
             {
                 Airline.Print(obj);
             }
@@ -303,11 +303,23 @@ namespace lab10
             type = change(type);
             int count = airlines.Count(n => n.Type == type);
             Console.ForegroundColor = ConsoleColor.Yellow;
-            Console.WriteLine("{0} самолетов типа {1}",count,type);
+            Console.WriteLine("{0} самолетов типа {1}", count, type);
             Console.ResetColor();
+            IEnumerable<Airline> inquiry = airlines.Where(n => ((n.Day).Length) > 6)
+                                                    .OrderBy(n => n.Time)
+                                                    .Select(n=>n);
+            var inq = inquiry.GroupBy(n => n.Day);
+            Airline elem = airlines.ElementAt(3);
 
 
-
+            List<Airline> air1 = new List<Airline>();
+            List<Airline> air2 = new List<Airline>();
+          
+            Airline flight11 = new Airline("Vitebsk",54, "Thursday", 21.41);
+            flight11.Type = "Second class";
+            air1.Add(flight6);
+            air2.Add(flight11);
+            var airlin = air1.Join(air2, p => p.Day, n => n.Day, (p, n) => new Airline(p.PointOfDeparture,p.Number, p.Day, p.Time));
         }
     }
 }
