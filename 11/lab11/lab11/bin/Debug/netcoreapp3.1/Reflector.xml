@@ -28,6 +28,45 @@
       <Field>MaxValue</Field>
       <Field>MinValue</Field>
     </Fields>
+    <MethodsWithParm>
+      <Method>Int32 CompareTo (Int32 value)</Method>
+      <Method>Boolean Equals (Int32 obj)</Method>
+    </MethodsWithParm>
+    <Constructors>Нет публичных конструкторов</Constructors>
     <Assembly>C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\11\lab11\lab11\bin\Debug\netcoreapp3.1\lab11.dll</Assembly>
+    <Constructors>Нет публичных конструкторов</Constructors>
   </Int32>
+  <Airline>
+    <Interfaces />
+    <Methods>
+      <Method>GetHashCode</Method>
+      <Method>Equals</Method>
+      <Method>ToString</Method>
+      <Method>set_Number</Method>
+      <Method>get_Number</Method>
+      <Method>set_PointOfDeparture</Method>
+      <Method>get_PointOfDeparture</Method>
+      <Method>set_Day</Method>
+      <Method>get_Day</Method>
+      <Method>get_Id</Method>
+      <Method>get_Time</Method>
+      <Method>get_Type</Method>
+      <Method>get_Counter</Method>
+      <Method>GetType</Method>
+    </Methods>
+    <Properties>
+      <Property>Number</Property>
+      <Property>PointOfDeparture</Property>
+      <Property>Day</Property>
+      <Property>Id</Property>
+      <Property>Time</Property>
+      <Property>Type</Property>
+      <Property>Counter</Property>
+    </Properties>
+    <Fields />
+    <MethodsWithParm>
+      <Method>Boolean Equals (Object obj)</Method>
+    </MethodsWithParm>
+    <Assembly>C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\11\lab11\lab11\bin\Debug\netcoreapp3.1\lab11.dll</Assembly>
+  </Airline>
 </Reflector>
