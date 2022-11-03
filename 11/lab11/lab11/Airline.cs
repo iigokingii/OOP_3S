@@ -66,6 +66,11 @@ namespace lab11
         {
             return $"id:{id} type:{type} point of departure:{pointOfDeparture} number:{number} time:{time} day:{day} №{counter}";
         }
+
+        public void showelem(string elem)
+        {
+            Console.WriteLine(elem);
+        }
         public int Number
         {
             set

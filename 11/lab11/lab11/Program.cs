@@ -4,12 +4,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Xml;
 using System.Xml.Linq;
+using System.IO;
 
 namespace lab11
 {
     static class Reflector<T>
     {
-        static bool Flag = false;
         static public void WriteInit(IEnumerable<string> stroke, string rootNode, string name, string secondNode, string thirdNode)
         {
             XDocument xdoc = new XDocument();
@@ -64,9 +64,9 @@ namespace lab11
 
 
 
-        static public IEnumerable<string> Interfaces(Type obj)
+        static public IEnumerable<string> Interfaces(Type obj,bool Flag)
         {
-            Console.WriteLine("\nInterfaces of {0}", obj.Name);
+            Console.WriteLine("Interfaces of {0}", obj.Name);
 
             IEnumerable<string> stroke = obj.GetInterfaces()
                                             .Where(n => n is Type)
@@ -194,36 +194,13 @@ namespace lab11
         }
         static public void Invoke(Airline ob,string name)
         {
-            var Equal = typeof(Airline).GetMethod("name");
-
-
-
-            /*Type obj = typeof(Airline);
-            XmlDocument xml = new XmlDocument();
-            xml.Load("Reflector.xml");
-            XmlElement? root =xml.DocumentElement;
-            foreach(XmlElement element in root)
-            {
-                if (element.Name == obj.Name)
-                {
-                    foreach(XmlNode node in element.ChildNodes)
-                    {
-                        if (node.Name == "MethodsWithParm")
-                        {
-                            foreach(XmlElement el in node)
-                            {
-                                if (el.InnerText.Contains(name))
-                                {
-
-                                }
-
-                            }
-                        }
-
-                    }
-                }
-            }*/
-
+            Console.WriteLine("\nMethod Invoke:");
+            var Equal = typeof(Airline).GetMethod($"{name}");
+            StreamReader reader = new StreamReader("ReadMe.txt");
+            List<string> args = new List<string>();
+            args.Add(reader.ReadToEnd());
+            foreach(string str in args)
+            Equal.Invoke(ob, new object[]{str});
         }
 
 
@@ -251,7 +228,7 @@ namespace lab11
 
             Type t = typeof(Int32);
 
-            Reflector<Int32>.Interfaces(t);
+            Reflector<Int32>.Interfaces(t,false);
 
             Reflector<Int32>.Methods(t);
 
@@ -273,7 +250,7 @@ namespace lab11
             Airline airline1 = new Airline();
             Airline airline2 = new Airline();
             Type type = typeof(Airline);
-            Reflector<Airline>.Interfaces(type);
+            Reflector<Airline>.Interfaces(type,true);
 
             Reflector<Airline>.Methods(type);
 
@@ -294,8 +271,8 @@ namespace lab11
             Reflector.Invoke(airline1,"Equals");*/
             Airline airline= new Airline();
             Type type1 = typeof(Airline);
-           Airline air=Reflector<Airline>.Create(airline);
-
+            Airline air=Reflector<Airline>.Create(airline);
+            Reflector<Airline>.Invoke(air, "showelem");
         }
     }
 }
