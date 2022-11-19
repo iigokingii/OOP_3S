@@ -1,10 +1,20 @@
 ﻿using System;
 using System.IO;
-
+using System.IO.Compression;
 namespace lab12
 {
     class SVALog
     {
+        string name;
+        FileStream fs;
+        SVALog(string _name)
+        {
+            name = _name;
+            using (fs = new FileStream("test.txt", FileMode.OpenOrCreate))
+            {
+                
+            }
+        }
 
     }
     class SVADiskInfo
@@ -112,6 +122,94 @@ namespace lab12
     }
     class SVAFileManager
     {
+        string path;
+        string[] dirs;
+        string[] files;
+        public SVAFileManager(string _path)
+        {
+            path = _path;
+            dirs = Directory.GetDirectories(path);
+            files = Directory.GetFiles(path);
+        }
+        public void CreateDir()
+        {
+            Console.WriteLine("subdir");
+            foreach (string temp in dirs)
+            {
+                Console.WriteLine(temp);
+            }
+            Console.WriteLine();
+
+            Console.WriteLine("Files: ");
+            foreach (string temp in files)
+            {
+                Console.WriteLine(temp);
+            }
+            Console.WriteLine();
+
+            string path = @"D:\SVAInspect";
+            DirectoryInfo dirInfo = new DirectoryInfo(path);
+            if (!dirInfo.Exists)
+            {
+                dirInfo.Create();
+            }
+            string oldPath = @"D:\SVAInspect\SVAdirinfo.txt";
+            string NewPath = @"D:\SVAInspect\NewName.txt";
+            using (StreamWriter sw = File.CreateText(oldPath))
+            {
+                sw.Write("Files: \n");
+                foreach (string temp in files)
+                    sw.Write(temp+"\n");
+                sw.Write("Subdirs:");
+                foreach (string temp in dirs)
+                    sw.Write(temp+"\n");
+            }
+            File.Copy(oldPath, NewPath, true);
+            //File.Delete(oldPath);
+        }
+        public void newDir(string PathToDir,string _extencion)
+        {
+            string newPath = path + @"SVAFiles";
+            Directory.CreateDirectory(newPath);
+            DirectoryInfo di = new DirectoryInfo(PathToDir);
+            FileInfo[] files = di.GetFiles();
+            foreach(FileInfo temp in files)
+            {
+                if (temp.Extension ==_extencion)
+                {
+                    temp.CopyTo(newPath+$"\\{temp.Name}",true);
+                }
+            }
+            //Directory.Move(PathToDir, @$"D:\SVAInspect\SVAFiles");            //создать папку forlab для сдачи
+        }
+        public void zip(string PathToDir)
+        {
+            string zipName = @"D:\SVAInspect\SVAFiles\ZIPForLab.zip";
+            string zipFolder = @"D:\SVAFiles";
+            ZipFile.CreateFromDirectory(zipFolder, zipName);                //удалить зип
+            using (ZipArchive archive = ZipFile.OpenRead(zipName))
+            {
+                foreach(ZipArchiveEntry file in archive.Entries)
+                {
+                    Console.WriteLine("File Name: {0}", file.Name);
+                    Console.WriteLine("File Size: {0} bytes", file.Length);
+                }
+            }
+            using (ZipArchive archive = ZipFile.Open(zipName,ZipArchiveMode.Read))
+            {
+                foreach (ZipArchiveEntry temp in archive.Entries)
+                {
+                    temp.ExtractToFile(PathToDir+@$"\{temp.Name}",true);
+                }
+            }
+
+
+
+
+        }
+
+
+
 
     }
 
@@ -138,11 +236,17 @@ namespace lab12
             dirInfo.Parents();
 
             string path2 = "C:\\Users\\User\\OneDrive\\Рабочий стол\\ticket_58061812.pdf";
+            
             SVAFileInfo fileInfo = new SVAFileInfo(path2);
             fileInfo.find();
             fileInfo.inf();
             fileInfo.date();
 
+            string disk = "D:\\";
+            SVAFileManager manager = new SVAFileManager(disk);
+            manager.CreateDir();
+            manager.newDir(@"D:\forlab", @".txt");
+            manager.zip(@"D:\SVAInspect");
 
 
 
