@@ -1,21 +1,28 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Text;
 namespace lab12
 {
     class SVALog
     {
-        string name;
-        FileStream fs;
-        SVALog(string _name)
+        string path = @"D:\SVAInspect\SVAFiles\SVALog.txt";
+        public static StreamWriter SW;  
+        public SVALog()
         {
-            name = _name;
-            using (fs = new FileStream("test.txt", FileMode.OpenOrCreate))
+            //SW = new StreamWriter(path,false,Encoding.Default);
+        }
+        public void write(string information)
+        {
+            using (SW = new StreamWriter(path,true,Encoding.Default))
             {
-                
+                SW.WriteLine(information);          //нельзя записывать в private SW
             }
         }
-
+        public void close()
+        {
+            SW.Close();
+        }
     }
     class SVADiskInfo
     {
@@ -24,7 +31,7 @@ namespace lab12
         {
             allDisk = _allDisk;
         }
-        public void FreeSpace()
+        public DriveInfo[] FreeSpace()
         {
             Console.WriteLine("\nFree space method");
             foreach(DriveInfo di in allDisk)
@@ -32,6 +39,8 @@ namespace lab12
                 Console.WriteLine("Available Free space on drive {0}:\t{1}",di.Name,di.AvailableFreeSpace);
                 Console.WriteLine("Total free space on drive {0}:\t\t{1}", di.Name, di.TotalFreeSpace);
             }
+            return allDisk;
+
         } 
         public void DriveType()
         {
@@ -65,20 +74,26 @@ namespace lab12
             name = Path.GetFileName(path);
             fi = new FileInfo(path);
         }
-        public void find()
+        public string find()
         {
+            string stroke = $"Full path to {name} : {path}";
             Console.WriteLine("Full path to {0} : {1}",name,path);
+            return stroke;
         }
-        public void inf()
+        public string inf()
         {
             Console.WriteLine("Name of file : {0}",name);
             Console.WriteLine("Extention : {0}" ,Path.GetExtension(name));
             Console.WriteLine("Size : {0}",fi.Length);
+            string stroke = $"Name of file : {name}\nExtention : {Path.GetExtension(name)}\nSize: {fi.Length}";
+            return stroke;
         }
-        public void date()
+        public string date()
         {
             Console.WriteLine("Creation time of file {0} : {1}",name,fi.CreationTime);
             Console.WriteLine("file modification time : {0}",File.GetLastWriteTime(path));
+            string stroke = $"Creation time of file {name} : {fi.CreationTime}\nfile modification time : {File.GetLastWriteTime(path)}";
+            return stroke;
         }
 
     }
@@ -95,10 +110,11 @@ namespace lab12
             FI = AllDirInfo.GetFiles();
             DirInfoArr = AllDirInfo.GetDirectories();
         }
-        public void NumberOfFiles()
+        public FileInfo[] NumberOfFiles()
         {
             Console.WriteLine("\nNumber of file method: ");
-            Console.WriteLine("Number of Files:{0}", FI.Length); 
+            Console.WriteLine("Number of Files:{0}", FI.Length);
+            return FI;
         }
         public void CreationTime()
         {
@@ -108,9 +124,10 @@ namespace lab12
                 Console.WriteLine("Name {0} , Creation time: {1}", tmp.Name, tmp.CreationTime);
             }
         }
-        public void NumberOfSubDir()
+        public DirectoryInfo[] NumberOfSubDir()
         {
             Console.WriteLine("\nnumber of subdirectories : {0}", DirInfoArr.Length);
+            return DirInfoArr;
         }
         public void Parents()
         {
@@ -133,6 +150,8 @@ namespace lab12
         }
         public void CreateDir()
         {
+            string oldPath = @"D:\SVAInspect\SVAdirinfo.txt";
+            string NewPath = @"D:\SVAInspect\NewName.txt";
             Console.WriteLine("subdir");
             foreach (string temp in dirs)
             {
@@ -153,8 +172,7 @@ namespace lab12
             {
                 dirInfo.Create();
             }
-            string oldPath = @"D:\SVAInspect\SVAdirinfo.txt";
-            string NewPath = @"D:\SVAInspect\NewName.txt";
+            
             using (StreamWriter sw = File.CreateText(oldPath))
             {
                 sw.Write("Files: \n");
@@ -186,7 +204,7 @@ namespace lab12
         {
             string zipName = @"D:\SVAInspect\SVAFiles\ZIPForLab.zip";
             string zipFolder = @"D:\SVAFiles";
-            ZipFile.CreateFromDirectory(zipFolder, zipName);                //удалить зип
+            //ZipFile.CreateFromDirectory(zipFolder, zipName);                //удалить зип
             using (ZipArchive archive = ZipFile.OpenRead(zipName))
             {
                 foreach(ZipArchiveEntry file in archive.Entries)
@@ -202,62 +220,108 @@ namespace lab12
                     temp.ExtractToFile(PathToDir+@$"\{temp.Name}",true);
                 }
             }
-
-
-
-
         }
-
-
-
-
     }
-
-
-
-
     class Program
     {
         static void Main(string[] args)
         {
+            SVALog Log = new SVALog();
+            try
+            {
+                DriveInfo[] allDisk = DriveInfo.GetDrives();
+                SVADiskInfo DI = new SVADiskInfo(allDisk);
+                DriveInfo[] DrI = DI.FreeSpace();
+                Log.write($"\nDate & Time: {DateTime.Now}\n");
+                Log.write("Free space method of SVADiskInfo: ");
+                foreach (var item in DrI)
+                {
+                    Log.write($"Available Free space on drive { item.Name}:\t{item.AvailableFreeSpace}");
+                    Log.write($"Total free space on drive {item.Name}:\t\t{item.TotalFreeSpace}");
+                }
 
-            DriveInfo[] allDisk = DriveInfo.GetDrives();
-            SVADiskInfo DI = new SVADiskInfo(allDisk);
-            DI.FreeSpace();
-            DI.DriveType();
-            DI.Drive();
+                DI.DriveType();
+                Log.write("\nDrive type method:");
+                foreach (DriveInfo di in allDisk)
+                {
+                    Log.write($"Тип диска :{ di.DriveType}");
+                    Log.write($"Имя файловой системы : {di.DriveFormat}");
+                    Log.write($"Формат диска : {di.DriveFormat}");
+                }
 
-
-            string path = "C:\\Users\\User\\OneDrive\\Рабочий стол\\ООП\\лабораторные\\11\\lab11\\lab11\\bin\\Debug\\netcoreapp3.1";
-            SVADirInfo dirInfo = new SVADirInfo(path);
-            dirInfo.NumberOfFiles();
-            dirInfo.CreationTime();
-            dirInfo.NumberOfSubDir();
-            dirInfo.Parents();
-
-            string path2 = "C:\\Users\\User\\OneDrive\\Рабочий стол\\ticket_58061812.pdf";
-            
-            SVAFileInfo fileInfo = new SVAFileInfo(path2);
-            fileInfo.find();
-            fileInfo.inf();
-            fileInfo.date();
-
-            string disk = "D:\\";
-            SVAFileManager manager = new SVAFileManager(disk);
-            manager.CreateDir();
-            manager.newDir(@"D:\forlab", @".txt");
-            manager.zip(@"D:\SVAInspect");
-
-
-
+                DI.Drive();
+                foreach (DriveInfo di in allDisk)
+                {
+                    Log.write($"Name: {di.Name} ; Size : {di.TotalSize}; Available volume: { di.AvailableFreeSpace}; Volume label: {di.VolumeLabel}");
+                }
 
 
+                string path = "C:\\Users\\User\\OneDrive\\Рабочий стол\\ООП\\лабораторные\\11\\lab11\\lab11\\bin\\Debug\\netcoreapp3.1";
+                SVADirInfo dirInfo = new SVADirInfo(path);
 
+                FileInfo[] FI = dirInfo.NumberOfFiles();
+                Log.write("\nNumber of file method: ");
+                Log.write($"Number of Files:{FI.Length}");
 
+                dirInfo.CreationTime();
+                Log.write("\nName and creation: ");
+                foreach (FileInfo tmp in FI)
+                {
+                    Log.write($"Name { tmp.Name} , Creation time: {tmp.CreationTime}");
+                }
 
+                DirectoryInfo[] DirInfoArr = dirInfo.NumberOfSubDir();
+                Log.write($"\nnumber of subdirectories : {DirInfoArr.Length}");
 
+                dirInfo.Parents();
+                foreach (DirectoryInfo tp in DirInfoArr)
+                {
+                    Log.write($"Parrent for {tp.Name} : { tp.Parent}");
+                }
 
+                string path2 = "C:\\Users\\User\\OneDrive\\Рабочий стол\\ticket_58061812.pdf";
+                SVAFileInfo fileInfo = new SVAFileInfo(path2);
+                string stroke = fileInfo.find();
+                Log.write(stroke);
 
+                string str = fileInfo.inf();
+                Log.write(str);
+
+                string temp = fileInfo.date();
+                Log.write(str);
+
+                string disk = "D:\\";
+                SVAFileManager manager = new SVAFileManager(disk);
+                manager.CreateDir();
+                string[] dirs;
+                string[] files;
+                dirs = Directory.GetDirectories(@"D:\");
+                files = Directory.GetFiles(@"D:\");
+                Log.write("subdir");
+                foreach (string t in dirs)
+                {
+                    Log.write(t);
+                }
+                Log.write("Files: ");
+                foreach (string tem in files)
+                {
+                    Log.write(tem);
+                }
+                manager.newDir(@"D:\forlab", @".txt");
+                Log.write("Created new Directory");
+                manager.zip(@"D:\SVAInspect");
+                Log.write(@"Arhivization and unpacking ");
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                Console.WriteLine(e.StackTrace);
+                Console.WriteLine(e.Source);
+            }
+            finally
+            {
+                Log.close();
+            }
         }
     }
 }
