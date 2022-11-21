@@ -1,17 +1,15 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Text;
 namespace lab12
 {
     class SVALog
     {
         string path = @"D:\SVAInspect\SVAFiles\SVALog.txt";
-        public static StreamWriter SW;  
-        public SVALog()
-        {
-            //SW = new StreamWriter(path,false,Encoding.Default);
-        }
+        StreamWriter SW;
+        StreamReader SR;
         public void write(string information)
         {
             using (SW = new StreamWriter(path,true,Encoding.Default))
@@ -19,7 +17,93 @@ namespace lab12
                 SW.WriteLine(information);          //нельзя записывать в private SW
             }
         }
-        public void close()
+        public void Count()
+        {
+            int count;
+            using (SR= new StreamReader(path,Encoding.Default))
+            {
+                count = SR.ReadToEnd().Split('\n').Where(t => t.StartsWith("Date") == true).Count();
+            }
+            Console.WriteLine("количество записей:{0}",count);
+        }
+        public void FindInf(string date,string from , string to,string key)
+        {
+            string res = "";
+
+            using (StreamReader sr = new StreamReader(path, Encoding.Default))
+            {
+
+                string[] infos = sr.ReadToEnd().Split('\n');
+                string str = "";
+                Console.WriteLine("\n\nДействия пользователя за определенный день:\n\n ");
+                foreach (var s in infos)
+                {
+                    str += s;
+                    str += '\n';
+                    if (s.Contains(date))
+                    {
+                        while (!s.Contains("Date"))
+                        {
+                            str += s;
+                        }
+                        Console.WriteLine(str);
+                        str = "";
+                    }
+                }
+                Console.WriteLine("\n\nИнформация по ключевому слову:\n\n");
+                foreach (var s in infos)
+                {
+                    if (s.Contains(key))
+                    {
+                        Console.WriteLine(s);
+                    }
+                }
+                int k=1;
+                Console.WriteLine("\n\nДействия пользователя за промежуток времени:\n\n ");
+                str = "";
+                foreach (var temp in infos)
+                {
+                    str = "";
+                    if (temp.Contains(from)||temp.Contains(to))
+                    {
+                        Console.WriteLine(infos[k++]);
+                        while (!infos[k].Contains("Date"))
+                        {
+                            Console.WriteLine(infos[k++]);
+                        }
+                        
+                    }
+                }
+            }
+        }
+        public void delete(string time)
+        {
+            SW.Close();
+            int counter = 0;
+            string str = "";
+            using (SR = new StreamReader(path, Encoding.Default))
+            {
+                string []infos=SR.ReadToEnd().Split('\n');
+                for(int i=0;i<infos.Length;++i)
+                {
+                    if (infos[i].Contains(time))
+                    {
+                        int k = i + 2;
+                        while (!infos[k].Contains("Date"))
+                        {
+                            i++;
+                            k++;
+                        }
+                    }
+                    str += infos[i];
+                    str += "\n";
+                }
+            }
+            SW = new StreamWriter(path, false, Encoding.Default);
+            SW.WriteLine(str);
+
+        }
+        public void Close()
         {
             SW.Close();
         }
@@ -241,7 +325,7 @@ namespace lab12
                 }
 
                 DI.DriveType();
-                Log.write("\nDrive type method:");
+                Log.write("Drive type method:");
                 foreach (DriveInfo di in allDisk)
                 {
                     Log.write($"Тип диска :{ di.DriveType}");
@@ -260,18 +344,18 @@ namespace lab12
                 SVADirInfo dirInfo = new SVADirInfo(path);
 
                 FileInfo[] FI = dirInfo.NumberOfFiles();
-                Log.write("\nNumber of file method: ");
+                Log.write("Number of file method: ");
                 Log.write($"Number of Files:{FI.Length}");
 
                 dirInfo.CreationTime();
-                Log.write("\nName and creation: ");
+                Log.write("Name and creation: ");
                 foreach (FileInfo tmp in FI)
                 {
                     Log.write($"Name { tmp.Name} , Creation time: {tmp.CreationTime}");
                 }
 
                 DirectoryInfo[] DirInfoArr = dirInfo.NumberOfSubDir();
-                Log.write($"\nnumber of subdirectories : {DirInfoArr.Length}");
+                Log.write($"number of subdirectories : {DirInfoArr.Length}");
 
                 dirInfo.Parents();
                 foreach (DirectoryInfo tp in DirInfoArr)
@@ -320,7 +404,12 @@ namespace lab12
             }
             finally
             {
-                Log.close();
+                Log.Close();
+                Log.Count();
+                Log.FindInf("20.11.2022", "3:30:00", "3:31:00", "Reflector.xml");
+                Log.delete("3:38:30");
+
+
             }
         }
     }
