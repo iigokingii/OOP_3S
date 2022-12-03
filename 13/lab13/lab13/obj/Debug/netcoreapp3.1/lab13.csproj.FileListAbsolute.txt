@@ -12,3 +12,5 @@ C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\1
 C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\13\lab13\lab13\obj\Debug\netcoreapp3.1\lab13.dll
 C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\13\lab13\lab13\obj\Debug\netcoreapp3.1\lab13.pdb
 C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\13\lab13\lab13\obj\Debug\netcoreapp3.1\lab13.genruntimeconfig.cache
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\13\lab13\lab13\bin\Debug\netcoreapp3.1\System.Runtime.Serialization.Formatters.Soap.dll
+C:\Users\User\OneDrive\Рабочий стол\ООП\лабораторные\13\lab13\lab13\obj\Debug\netcoreapp3.1\lab13.csproj.CopyComplete
