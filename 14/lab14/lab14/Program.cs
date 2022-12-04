@@ -38,7 +38,8 @@ namespace lab14
             Console.WriteLine("---------------------------------------------------------------------------------------------");*/
             Console.WriteLine("Введите n: ");
             int n = int.Parse(Console.ReadLine());
-
+            Thread thred = Thread.CurrentThread;
+            Console.WriteLine("id:{0}",thred.ManagedThreadId);
             Thread threadForTask = new Thread(Task);
             threadForTask.Name = "thread For Task";
             Console.WriteLine($"Имя потока: {threadForTask.Name}");
@@ -52,11 +53,15 @@ namespace lab14
             Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
             Console.WriteLine($"Id потока: {threadForTask.ManagedThreadId}");
             Console.WriteLine($"Статус потока: {threadForTask.ThreadState}");
-            //threadForTask.Abort();
+            /*threadForTask.Abort();
             threadForTask.Suspend();
             Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
             Console.WriteLine($"Id потока: {threadForTask.ManagedThreadId}");
             Console.WriteLine($"Статус потока: {threadForTask.ThreadState}");
+            threadForTask.Resume();
+            Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
+            Console.WriteLine($"Id потока: {threadForTask.ManagedThreadId}");
+            Console.WriteLine($"Статус потока: {threadForTask.ThreadState}");*/
 
             void Task(object? obj)
             {
@@ -65,19 +70,108 @@ namespace lab14
                     for(int i = 0; i < n; i++)
                     {
                         Console.WriteLine(i);
-                        using (StreamWriter sw = new StreamWriter("task.txt",false))
+                        using (StreamWriter sw = new StreamWriter("task.txt",true))
                         {
-                            sw.Write(i);
+                            sw.WriteLine(i);
                             Thread.Sleep(300);
                         }
                     }
                 }
             }
+            threadForTask.Join();   //блокирует выполнение вызвавшего его потока до тех пор, пока не завершится поток, для которого был вызван данный метод
 
 
+            //4i
+            object locker = new object();
+            Thread thread1 = new Thread(Task2)
+            {
+                Priority = ThreadPriority.AboveNormal,
+            };
+            thread1.Name = "Поток 1";
+            Thread thread2 = new Thread(Task2);
+            thread2.Name = "Поток 2";
+            thread1.Start(n);
+            thread2.Start(n);
+            void Task2(object? obj)
+            {
+                lock (locker)
+                {
+                    if (obj is int n)
+                    {
+                        for (int j = 0; j < n; j++)
+                        {
+                            if (j % 2 == 0 && Thread.CurrentThread.Name == "Поток 1")
+                            {
+                                Console.WriteLine("четный j {0}, {1}", j, Thread.CurrentThread.Name);
+                                Thread.Sleep(400);
+                                using (StreamWriter sw = new StreamWriter("task2.txt", true))
+                                {
+                                    sw.WriteLine(j);
+                                }
+                            }
+                            else if (j % 2 != 0 && Thread.CurrentThread.Name == "Поток 2")
+                            {
+                                Console.WriteLine("нечетный j {0}, {1}", j, Thread.CurrentThread.Name);
+                                Thread.Sleep(200);
+                                using (StreamWriter sw = new StreamWriter("task2.txt", true))
+                                {
+                                    sw.WriteLine(j);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            thread1.Join();
+            thread2.Join();
+            //4ii
 
 
+            AutoResetEvent reset = new AutoResetEvent(true);
+            Thread thread3 = new Thread(Task2I)
+            {
+                Priority = ThreadPriority.AboveNormal,
+            };
+            thread3.Name = "Поток 3";
+            Thread thread4 = new Thread(Task2I);
+            thread4.Name = "Поток 4";
+            thread3.Start(n);
+            thread4.Start(n);
+            void Task2I(object? obj)
+            {
+                
+                if (obj is int n)
+                {
+                    for (int j = 0; j < n; j++)
+                    {
+                        reset.WaitOne();
+                        if (j % 2 == 0 && Thread.CurrentThread.Name == "Поток 3")
+                        {
+                            Console.WriteLine("четный j {0}, {1}", j, Thread.CurrentThread.Name);
+                            Thread.Sleep(400);
+                            using (StreamWriter sw = new StreamWriter("task3.txt", true))
+                            {
+                                sw.WriteLine(j);
+                            }
+                            
+                        }
+                        else if (j % 2 != 0 && Thread.CurrentThread.Name == "Поток 4")
+                        {
+                            Console.WriteLine("нечетный j {0}, {1}", j, Thread.CurrentThread.Name);
+                            Thread.Sleep(400);
+                            using (StreamWriter sw = new StreamWriter("task3.txt", true))
+                            {
+                                sw.WriteLine(j);
+                            }
+                            
+                        }
+                        reset.Set();
+                    }
 
+                }
+            }
+            thread3.Join();
+            thread4.Join();
 
         }
     }
