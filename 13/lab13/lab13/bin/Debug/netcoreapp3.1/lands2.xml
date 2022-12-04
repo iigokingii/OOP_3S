@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<formulas xmlns="wassup its 4:15 am rigth now">
+  <parallelepiped>
+    <volume>abc</volume>
+  </parallelepiped>
+  <rectangle>
+    <square>a*b</square>
+  </rectangle>
+  <rectangle>
+    <Perimeter>2*(a+b)</Perimeter>
+  </rectangle>
+</formulas>

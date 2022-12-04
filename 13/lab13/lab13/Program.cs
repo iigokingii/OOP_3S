@@ -7,6 +7,9 @@ using System.IO;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Linq;
 //using System.Runtime.Serialization.Formatters.Soap;
 namespace lab13
 {
@@ -62,6 +65,10 @@ namespace lab13
             return $"square:{this.Square}, type of land: {this.TypeOfLand}";
         }
     }
+    public class Lands
+    {
+        public List<Land> lands { get; set; }
+    } 
     class Program
     {
         async static Task Main(string[] args)
@@ -99,8 +106,8 @@ namespace lab13
                 Console.WriteLine(newLandJson.ToString());
             }
             Land landSOAP = new Land(124124124, "cxzc");
-            SoapFormatter soapFormatter = new SoapFormatter();
-            /*using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
+            /*SoapFormatter soapFormatter = new SoapFormatter();
+            using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, landSOAP);
             }
@@ -109,7 +116,58 @@ namespace lab13
                 Land newLandSOAP = (Land)formatter.Deserialize(fs);
                 Console.WriteLine(newLandSOAP.ToString());
             }*/
+            List<Land> lList = new List<Land>();
+            lList.Add(landbin);
+            lList.Add(landSOAP);
+            lList.Add(landXML);
+            lList.Add(landJson);
+            Lands lands1=new Lands();
+            lands1.lands = lList;
+            Console.WriteLine("\nСериализация в xml формат");
+            XmlSerializer serializer = new XmlSerializer(typeof(Lands));
+            using (FileStream fs = new FileStream("lands.xml", FileMode.OpenOrCreate))
+            {
+                serializer.Serialize(fs,lands1);
+            }
+            Console.WriteLine("Десериализация: ");
+            Lands newLands = new Lands();
+            using (FileStream fs = new FileStream("lands.xml", FileMode.OpenOrCreate))
+            {
+                newLands=(Lands)serializer.Deserialize(fs);
+            }
+            foreach(Land obj in newLands.lands)
+            Console.WriteLine(obj.ToString());
 
+            XmlDocument xdoc = new XmlDocument();
+            xdoc.Load("lands.xml");
+            XmlNode? xroot =xdoc.SelectSingleNode("Lands/lands");
+            XmlNodeList? nodes = xroot.SelectNodes("*"); //*-выбор всех дочерних ущлов текущего
+            Console.WriteLine("XPath: ");
+            if (nodes != null)
+            {
+                foreach (XmlNode node in nodes)
+                {
+                    Console.WriteLine($"name: {node.Name} inner text: {node.InnerText}");
+                }
+            }
+
+            XNamespace aw = "wassup its 4:15 am rigth now";
+            XElement root = new XElement(aw + "formulas", 
+                   new XElement(aw + "parallelepiped", 
+                   new XElement(aw + "volume", "abc")),
+                    new XElement(aw + "rectangle", 
+                   new XElement(aw + "square", "a*b")),
+                     new XElement(aw + "rectangle", 
+                   new XElement(aw + "Perimeter", "2*(a+b)")));
+            Console.WriteLine(root);
+            XDocument xDoc = new XDocument(root);
+            xDoc.Save("lands2.xml");
+            var tmp = xDoc  .Element("formulas")?            
+                            .Elements("rectangle")
+                            
+                            
+                            
+                            
         }
     }
 }
