@@ -10,7 +10,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Xml;
 using System.Xml.Linq;
-//using System.Runtime.Serialization.Formatters.Soap;
+using System.Linq;
+using System.Runtime.Serialization.Formatters.Soap;
 namespace lab13
 {
     interface IInformation
@@ -106,8 +107,8 @@ namespace lab13
                 Console.WriteLine(newLandJson.ToString());
             }
             Land landSOAP = new Land(124124124, "cxzc");
-            /*SoapFormatter soapFormatter = new SoapFormatter();
-            using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
+            //SoapFormatter soapFormatter = new SoapFormatter();
+            /*using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
             {
                 formatter.Serialize(fs, landSOAP);
             }
@@ -150,24 +151,24 @@ namespace lab13
                     Console.WriteLine($"name: {node.Name} inner text: {node.InnerText}");
                 }
             }
+            XDocument xDoc = new XDocument(new XElement("formulas",
+                new XElement("parallelelipiped",
+                    new XElement("volume", "abc"),
+                    new XElement("volume", "bfde"),
+                    new XElement("volume", "cxxzzcv")),
+                new XElement("rectangle",
+                    new XElement("square","a*b"),
+                    new XElement("perimeter", "2*(a+b)"))
+                ));
+            xDoc.Save("formulas.xml");
+            var tmp = xDoc.Element("formulas")?
+                .Elements("parallelelipiped")
+                .Where(p => p.Element("volume").Value == "abc")
+                .Select(p => p);
 
-            XNamespace aw = "wassup its 4:15 am rigth now";
-            XElement root = new XElement(aw + "formulas", 
-                   new XElement(aw + "parallelepiped", 
-                   new XElement(aw + "volume", "abc")),
-                    new XElement(aw + "rectangle", 
-                   new XElement(aw + "square", "a*b")),
-                     new XElement(aw + "rectangle", 
-                   new XElement(aw + "Perimeter", "2*(a+b)")));
-            Console.WriteLine(root);
-            XDocument xDoc = new XDocument(root);
-            xDoc.Save("lands2.xml");
-            var tmp = xDoc  .Element("formulas")?            
-                            .Elements("rectangle")
-                            
-                            
-                            
-                            
+            foreach(var ob in tmp)
+            Console.WriteLine(ob.Value);
+            Console.WriteLine() ;
         }
     }
 }
