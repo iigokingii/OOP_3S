@@ -9,8 +9,8 @@ namespace lab14
     {
         static void Main(string[] args)
         {
-            /*Process[] allProcess = Process.GetProcesses();
-            foreach(Process process in allProcess)
+            Process[] allProcess = Process.GetProcesses();
+            foreach (Process process in allProcess)
             {
                 Console.WriteLine($"Id: {process.Id}");
                 Console.WriteLine($"Name:{process.ProcessName};");
@@ -26,16 +26,16 @@ namespace lab14
 
             Console.WriteLine("Domain of current app: ");
             AppDomain domain = AppDomain.CurrentDomain;
-            Console.WriteLine("Name: {0}",domain.FriendlyName);
+            Console.WriteLine("Name: {0}", domain.FriendlyName);
             Console.WriteLine("Base Dir: {0}", domain.BaseDirectory);
             Console.WriteLine();
             Assembly[] assemblies = domain.GetAssemblies();
-            foreach(Assembly assembly in assemblies)
-                Console.WriteLine("assembly name: {0}",assembly.GetName().Name);
-            
+            foreach (Assembly assembly in assemblies)
+                Console.WriteLine("assembly name: {0}", assembly.GetName().Name);
+
             //AppDomain.Unload(newDomain);//Выгрузить сборки из домена нельзя, можно выгрузить весь домен
 
-            Console.WriteLine("---------------------------------------------------------------------------------------------");*/
+            Console.WriteLine("---------------------------------------------------------------------------------------------");
             Console.WriteLine("Введите n: ");
             int n = int.Parse(Console.ReadLine());
             Thread thred = Thread.CurrentThread;
@@ -163,7 +163,6 @@ namespace lab14
                             {
                                 sw.WriteLine(j);
                             }
-                            
                         }
                         reset.Set();
                     }
@@ -173,6 +172,21 @@ namespace lab14
             thread3.Join();
             thread4.Join();
 
+            int counter = 0;
+            TimerCallback timerCB = new TimerCallback(Print);
+            Timer timer = new Timer(timerCB, counter, 0, 10000);
+
+
+            static void Print(object obj)
+            {
+                if(obj is int n)
+                {
+                    for (int i = 1; i < 10; i++,++n)
+                    {
+                        Console.WriteLine($"Multiplication: {n*i}");
+                    }
+                }
+            }
         }
     }
 }
