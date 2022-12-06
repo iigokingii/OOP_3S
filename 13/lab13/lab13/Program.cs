@@ -85,6 +85,8 @@ namespace lab13
                 Land newLandBin = (Land)formatter.Deserialize(fs);
                 Console.WriteLine(newLandBin.ToString());
             }
+
+
             Land landXML = new Land(4323, "zxc");
             XmlSerializer xser = new XmlSerializer(typeof(Land));
             using (FileStream fs = new FileStream("land.xml", FileMode.OpenOrCreate))
@@ -96,6 +98,8 @@ namespace lab13
                 Land newLandXML = xser.Deserialize(fs) as Land;
                 Console.WriteLine(newLandXML.ToString());
             }
+
+
             Land landJson = new Land(41241, "czx");
             using (FileStream fs = new FileStream("land.json", FileMode.OpenOrCreate))
             {
@@ -106,17 +110,22 @@ namespace lab13
                 Land? newLandJson = await JsonSerializer.DeserializeAsync<Land>(fs);
                 Console.WriteLine(newLandJson.ToString());
             }
+
+
             Land landSOAP = new Land(124124124, "cxzc");
-            //SoapFormatter soapFormatter = new SoapFormatter();
-            /*using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
+            SoapFormatter soapFormatter = new SoapFormatter();
+            using (FileStream fs = new FileStream("land.soap", FileMode.OpenOrCreate))
             {
-                formatter.Serialize(fs, landSOAP);
+                soapFormatter.Serialize(fs, landSOAP);
             }
-            using (FileStream fs = new FileStream("land.soap",FileMode.OpenOrCreate))
+            using (FileStream fs = new FileStream("land.soap", FileMode.OpenOrCreate))
             {
-                Land newLandSOAP = (Land)formatter.Deserialize(fs);
-                Console.WriteLine(newLandSOAP.ToString());
-            }*/
+                Land newLandSOAP = (Land)soapFormatter.Deserialize(fs);
+                Console.WriteLine(newLandSOAP);
+            }
+
+
+
             List<Land> lList = new List<Land>();
             lList.Add(landbin);
             lList.Add(landSOAP);
@@ -151,11 +160,10 @@ namespace lab13
                     Console.WriteLine($"name: {node.Name} inner text: {node.InnerText}");
                 }
             }
+
             XDocument xDoc = new XDocument(new XElement("formulas",
                 new XElement("parallelelipiped",
-                    new XElement("volume", "abc"),
-                    new XElement("volume", "bfde"),
-                    new XElement("volume", "cxxzzcv")),
+                    new XElement("volume", "abc")),
                 new XElement("rectangle",
                     new XElement("square","a*b"),
                     new XElement("perimeter", "2*(a+b)"))
@@ -165,10 +173,9 @@ namespace lab13
                 .Elements("parallelelipiped")
                 .Where(p => p.Element("volume").Value == "abc")
                 .Select(p => p);
-
+            Console.WriteLine("Formula of parallelelipiped's volume:");
             foreach(var ob in tmp)
             Console.WriteLine(ob.Value);
-            Console.WriteLine() ;
         }
     }
 }

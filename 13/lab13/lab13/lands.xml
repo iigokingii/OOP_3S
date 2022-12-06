@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<Lands xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <lands>
+    <Land>
+      <TypeOfLand>Coal</TypeOfLand>
+    </Land>
+    <Land>
+      <TypeOfLand>cxzc</TypeOfLand>
+    </Land>
+    <Land>
+      <TypeOfLand>zxc</TypeOfLand>
+    </Land>
+    <Land>
+      <TypeOfLand>czx</TypeOfLand>
+    </Land>
+  </lands>
+</Lands>

@@ -6,6 +6,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="SoapFormatter" Version="1.1.9" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Reference Include="System.Runtime.Serialization.Formatters.Soap">
       <HintPath>..\..\..\..\..\System.Runtime.Serialization.Formatters.Soap.dll</HintPath>
     </Reference>

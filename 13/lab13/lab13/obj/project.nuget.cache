@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "cz0cLtApKHMnmBthSG08V09nr6sHeaD3t00t5JYJY/EY6+4/92dtrbeDqB2YEtaElIxrR3hapjL9NYpXDO4gVA==",
+  "dgSpecHash": "zL4WatpiXAfi+CzPIE1G+hpBvFFvsb++vRqHW3qFfgH2vc0MkI/CZDIvAaya4cdTs8eJF9AgaxzjRwadaw/XvA==",
   "success": true,
   "projectFilePath": "C:\\Users\\User\\OneDrive\\Рабочий стол\\ООП\\лабораторные\\13\\lab13\\lab13\\lab13.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\User\\.nuget\\packages\\soapformatter\\1.1.9\\soapformatter.1.1.9.nupkg.sha512"
+  ],
   "logs": []
 }

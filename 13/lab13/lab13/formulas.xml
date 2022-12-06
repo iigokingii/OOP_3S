@@ -1,0 +1,10 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<formulas>
+  <parallelelipiped>
+    <volume>abc</volume>
+  </parallelelipiped>
+  <rectangle>
+    <square>a*b</square>
+    <perimeter>2*(a+b)</perimeter>
+  </rectangle>
+</formulas>
