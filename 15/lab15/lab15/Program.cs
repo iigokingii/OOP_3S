@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Threading;
+using System.Collections.Concurrent;
 namespace lab15
 {
     class Tasks
@@ -186,7 +187,76 @@ namespace lab15
                Task5,
                Task4,
                Task3);
+            Console.WriteLine("[------------]");
         }
+        public void Task7()
+        {
+            Console.WriteLine("---Task 7---");
+            BlockingCollection<string> collection;
+
+            void producer()
+            {
+                List<string> Appliances = new List<string> { "table", "Microwave", "Plate", "computer", "chair" };
+                int choose = 0;
+                Random rnd = new Random();
+                for (int i = 0; i < 5; i++)
+                {
+                    choose = rnd.Next(0, Appliances.Count - 1);
+                    Console.WriteLine($"Add {Appliances[choose]}");
+                    collection.Add(Appliances[choose]);
+                    Appliances.RemoveAt(choose);
+                    Thread.Sleep(60);
+                }
+                collection.CompleteAdding();
+            }
+
+            void consumer()
+            {
+                string i = "";
+                int m = 0;
+                while (!collection.IsCompleted) //определить, что коллекция опустела, а новые элементы добавляться не будут.
+                {
+                    m++;
+                    if (collection.TryTake(out i))
+                        Console.WriteLine("Покупатель купил: " + i);
+                    else
+                        if (m % 3 == 0)
+                        Console.WriteLine($"Покупатель ничего не купил и ушел");
+                    Thread.Sleep(20);
+                }
+            }
+
+            collection = new BlockingCollection<string>(4);
+
+            Task pr = new Task(producer);
+            Task cn = new Task(consumer);
+
+            pr.Start();
+            cn.Start();
+
+            Task.WaitAll(pr, cn);
+            pr.Dispose();
+            cn.Dispose();
+        }
+        public async void Task8()
+        {
+            Console.WriteLine("---Task 8---");
+            var name1 = PrintAsync("Вадим");
+            var name2 = PrintAsync("Максим");
+            var name3 = PrintAsync("Дима");
+            
+            await name1;
+            await name2;
+            await name3;
+            
+            async Task PrintAsync(string name)
+            {
+                Console.WriteLine("printing name");
+                Console.WriteLine(name);
+                await Task.Delay(3000);
+            }
+        }
+
     }
 
 
@@ -197,21 +267,25 @@ namespace lab15
         static void Main(string[] args)
         {
             Tasks tasks = new Tasks();
-            /*  Task task1 = new Task(tasks.Task1);
-              Console.WriteLine($"Id: {task1.Id};\nStatus: {task1.Status};\nCompleted? ({task1.IsCompleted})\n");
-              task1.Start();
-              task1.Wait();
+            Task task1 = new Task(tasks.Task1);
+            Console.WriteLine($"Id: {task1.Id};\nStatus: {task1.Status};\nCompleted? ({task1.IsCompleted})\n");
+            task1.Start();
+            task1.Wait();
 
-              tasks.Task2();
+            tasks.Task2();
 
-              tasks.Task3();
+            tasks.Task3();
 
-              tasks.Task4();
+            tasks.Task4();
 
-              tasks.Task5();*/
+            tasks.Task5();
+            
             tasks.Task6();
 
-            Console.WriteLine("Main");
+            tasks.Task7();
+
+            tasks.Task8();
+
         }
     }
 }
