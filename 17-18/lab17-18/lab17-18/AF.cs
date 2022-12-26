@@ -39,16 +39,18 @@ namespace lab17_18
             public string type;
             public string time;
         }
-        public Request request = new Request();
-        public override void CreateRequest()
+        public Client()
         {
             Console.WriteLine("Количество мест :");
-            request.amount=Convert.ToInt32(Console.ReadLine());
+            request.amount = Convert.ToInt32(Console.ReadLine());
             Console.WriteLine("Тип :");
             request.type = Console.ReadLine();
             Console.WriteLine("Время :");
             request.time = Console.ReadLine();
         }
+        public Request request = new Request();
+        public override void CreateRequest()
+        { }
     
     }
 
@@ -56,9 +58,9 @@ namespace lab17_18
     {
         public override void ViewRequest(Client client)
         {
-            if(client.request.type == "luxe")
-                Console.WriteLine("С вас three hundred bucks");
-            if(client.request.amount==2)
+            if(String.Equals(client.request.type, "first class"))
+                Console.WriteLine("С вас 300$");
+            if(client.request.amount==12)
                 Console.WriteLine("С вас 100$");
         }
 
@@ -68,7 +70,6 @@ namespace lab17_18
     {
         private Client client;
         private Admin admin;
-
         public Score(AbstractHotel factory)
         {
             client = factory.CreateClient();
@@ -76,10 +77,14 @@ namespace lab17_18
         }
         public void Run()
         {
-            Console.WriteLine("Запущен ран а ты попущен");
-            client.CreateRequest();
             admin.ViewRequest(client);
-        
+        }
+        public void RunWithRequest(Request request)
+        {
+            if (String.Equals(request.parts[1], "luxe"))
+                Console.WriteLine("С вас 200$");
+            if (request.parts[0] == "12")
+                Console.WriteLine("С вас 150$");
         }
     }
 }
