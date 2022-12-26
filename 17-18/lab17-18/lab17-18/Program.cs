@@ -7,23 +7,29 @@ namespace lab17_18
     {
         static void Main(string[] args)
         {
-
             Console.Clear();
 
+            /*Console.Clear();*/
+            //Abstract Factory
             Score score = new Score(new Factory());
             score.Run();
 
+            //Builder
             ConcreteBuilder builder = new ConcreteBuilder();
             Director director = new Director(builder);
             director.Construct();
             Request req = builder.GetResult();
             score.RunWithRequest(req);
 
-            /*Settings setting = new Settings();
-            setting.Launch("red", "Cyan");
+            //Prototype
+            IFigure requestClone = req.Clone();
+            requestClone.GetInfo();
 
+            //Singleton
+            Settings setting = new Settings();
+            setting.Launch("green", "Cyan");
             Settings settings = new Settings();
-            settings.Launch("red", "Cyan");*/
+            settings.Launch("red", "Cyan");
 
 
 

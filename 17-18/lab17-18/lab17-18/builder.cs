@@ -27,13 +27,30 @@ namespace lab17_18
         public abstract Request GetResult();
     }
 
-    class Request   //объект для создания
+    class Request :IFigure  //объект для создания
     {
         public List<object> parts = new List<object>();
         public void Add(string part)
         {
             parts.Add(part);
         }
+        public Request() 
+        { }
+        private Request(List<object> _list)
+        {
+            parts = _list;
+        }
+        public void GetInfo()
+        {
+            Console.WriteLine("Информация , которая находится в клонированном объекте :");
+            foreach(var tmp in parts)
+                Console.WriteLine(tmp);
+        }
+        public IFigure Clone()
+        {
+            return new Request(this.parts);
+        }
+        
     }
 
     class ConcreteBuilder : BuilderOfRequest
