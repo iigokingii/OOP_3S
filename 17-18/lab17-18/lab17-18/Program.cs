@@ -7,6 +7,7 @@ namespace lab17_18
     {
         static void Main(string[] args)
         {
+            //labs 17-18
             /* Console.Clear();
 
              *//*Console.Clear();*//*
@@ -57,7 +58,6 @@ namespace lab17_18
             restoring.Returning();
             restoring.Payment();
 
-
             //memento
             AdminsRoom freeRooms = new AdminsRoom();
             freeRooms.Rent();
@@ -66,6 +66,13 @@ namespace lab17_18
             freeRooms.Rent();
             freeRooms.RestoreState(history.History.Pop());      //загрузка
             freeRooms.Rent();
+
+            //comand 
+            Manager manager = new Manager();
+            ScheduleOfHotel schedule = new ScheduleOfHotel();
+            manager.SetCommand(new HotelOnCommand(schedule));
+            manager.PressButton();
+            manager.PressUndo();
         }
     }
 }
