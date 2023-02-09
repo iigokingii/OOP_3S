@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 namespace lab04
 {
     enum Classes
@@ -22,7 +21,7 @@ namespace lab04
         int overloading;
         bool List;
         bool Array;
-        public structure(int _numberOfClasses,string _types,int _overloading,bool _List,bool _Array)
+        public structure(int _numberOfClasses, string _types, int _overloading, bool _List, bool _Array)
         {
             numberOfClasses = _numberOfClasses;
             types = _types;
@@ -42,7 +41,8 @@ namespace lab04
         public Planet() { }
         public void add(params object[] someobjects)
         {
-            foreach (var obj in someobjects) {
+            foreach (var obj in someobjects)
+            {
                 container.Add(obj);
             }
         }
@@ -56,16 +56,16 @@ namespace lab04
             foreach (object tmp in container)
             {
                 if (tmp is land)
-                Console.WriteLine(printer1.IAmPrinting((land)tmp));
-                else if(tmp is island)
+                    Console.WriteLine(printer1.IAmPrinting((land)tmp));
+                else if (tmp is island)
                     Console.WriteLine(printer1.IAmPrinting((island)tmp));
-                else if(tmp is continent)
+                else if (tmp is continent)
                     Console.WriteLine(printer1.IAmPrinting((continent)tmp));
-                else if(tmp is sea)
+                else if (tmp is sea)
                     Console.WriteLine(printer1.IAmPrinting((sea)tmp));
-                else if(tmp is surface)
+                else if (tmp is surface)
                     Console.WriteLine(printer1.IAmPrinting((surface)tmp));
-                else if(tmp is water)
+                else if (tmp is water)
                     Console.WriteLine(printer1.IAmPrinting((water)tmp));
             }
         }
@@ -85,21 +85,21 @@ namespace lab04
                 }
             }
         }
-        
-    }   
+
+    }
 
     class Controller
     {
-        public void findState(Planet obj,string name)
+        public void findState(Planet obj, string name)
         {
             state State = new state();
             for (int i = 0; i < obj.Container.Count; i++)
             {
                 object tmp = obj.Container[i];
-                if(tmp is state)
+                if (tmp is state)
                 {
                     State = (state)tmp;
-                    if(State.name==name)
+                    if (State.name == name)
                         Console.WriteLine(State.ToString());
                 }
             }
@@ -120,7 +120,7 @@ namespace lab04
         }
         public void printIsland(Planet obj)
         {
-            List<island> list= new List<island>();
+            List<island> list = new List<island>();
             for (int i = 0; i < obj.Container.Count; i++)
             {
                 object temp = obj.Container[i];
@@ -130,8 +130,8 @@ namespace lab04
                 }
             }
 
-            list.Sort((x,y)=>x.Name.CompareTo(y.Name));
-            foreach(island isl in list)
+            list.Sort((x, y) => x.Name.CompareTo(y.Name));
+            foreach (island isl in list)
             {
                 Console.WriteLine(isl.ToString());
             }
@@ -348,24 +348,24 @@ namespace lab04
 
 
 
-           /* Debugger.Launch();       //присоед отладчик
-            Debugger.IsLogging();    //Проверяет, включено ли ведение журнала для присоединенного отладчика.
-            Debugger.Break();        //точка останова
-            
-           
-
-              int n = 11;
-              Debug.Assert(n < 1, "Недопустимое значение");                 //Проверяет условие. Если условие имеет значение false, выдается указанное сообщение и отображается окно сообщения со стеком вызовов.
-
-              int[] aa = null;
-              Debug.Assert(aa != null, "Values array cannot be null");
+            /* Debugger.Launch();       //присоед отладчик
+             Debugger.IsLogging();    //Проверяет, включено ли ведение журнала для присоединенного отладчика.
+             Debugger.Break();        //точка останова
 
 
-            Debug.Indent();                                                           //задает уровень отступа
-            Debug.WriteLine("Entering Main");                                         //Записывает имя категории и значение метода ToString() объекта в прослушиватели трассировки в коллекции Listeners.
-            Console.WriteLine("Hello World.");                                      
-            Debug.WriteLine("Exiting Main");
-            Debug.Unindent();*/
+
+               int n = 11;
+               Debug.Assert(n < 1, "Недопустимое значение");                 //Проверяет условие. Если условие имеет значение false, выдается указанное сообщение и отображается окно сообщения со стеком вызовов.
+
+               int[] aa = null;
+               Debug.Assert(aa != null, "Values array cannot be null");
+
+
+             Debug.Indent();                                                           //задает уровень отступа
+             Debug.WriteLine("Entering Main");                                         //Записывает имя категории и значение метода ToString() объекта в прослушиватели трассировки в коллекции Listeners.
+             Console.WriteLine("Hello World.");                                      
+             Debug.WriteLine("Exiting Main");
+             Debug.Unindent();*/
 
 
 

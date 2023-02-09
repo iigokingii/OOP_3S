@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace lab04
+﻿namespace lab04
 {
     class continent : land
     {
         public string name;
         public continent() { }
-        public continent(string _name,int _square,string _typeOfLand)
+        public continent(string _name, int _square, string _typeOfLand)
         {
             name = _name;
             Square = _square;
@@ -31,9 +27,9 @@ namespace lab04
                 else
                 {
                     square = value;
-                    
+
                 }
-                    
+
             }
         }
         public override string ToString()

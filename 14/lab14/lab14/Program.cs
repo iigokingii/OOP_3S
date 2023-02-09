@@ -12,17 +12,24 @@ namespace lab14
             Process[] allProcess = Process.GetProcesses();
             foreach (Process process in allProcess)
             {
-                Console.WriteLine($"Id: {process.Id}");
-                Console.WriteLine($"Name:{process.ProcessName};");
-                //Console.WriteLine($"\n Priority:{process.PriorityClass};");
-                //Console.WriteLine($"\n Start time: {process.StartTime};");
-                //Console.WriteLine($" \n total processor time: {process.TotalProcessorTime}");
+                try
+                {
+                    Console.WriteLine($"\nId: {process.Id}");
+                    Console.WriteLine($"Name:{process.ProcessName};");
+                    Console.WriteLine($"Priority:{process.PriorityClass};");
+                    Console.WriteLine($"Start time: {process.StartTime};");
+                    Console.WriteLine($"total processor time: {process.TotalProcessorTime}");
+                }
+                catch(Exception e){}
+                
             }
             Console.WriteLine();
             Console.WriteLine("---------------------------------------------------------------------------------------------");
             //Создание домена
-            //AppDomain newDomain = AppDomain.CreateDomain("New");
-            //newDomain.Load("Name of assembly");
+            /*AppDomain newDomain = AppDomain.CreateDomain("New");
+            newDomain.Load(newDomain.BaseDirectory);
+            Console.WriteLine("Название "+newDomain.FriendlyName);*/
+            //AppDomain.Unload(newDomain);    //Выгрузить сборки из домена нельзя, можно выгрузить весь домен
 
             Console.WriteLine("Domain of current app: ");
             AppDomain domain = AppDomain.CurrentDomain;
@@ -33,7 +40,7 @@ namespace lab14
             foreach (Assembly assembly in assemblies)
                 Console.WriteLine("assembly name: {0}", assembly.GetName().Name);
 
-            //AppDomain.Unload(newDomain);//Выгрузить сборки из домена нельзя, можно выгрузить весь домен
+           
 
             Console.WriteLine("---------------------------------------------------------------------------------------------");
             Console.WriteLine("Введите n: ");
@@ -53,9 +60,9 @@ namespace lab14
             Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
             Console.WriteLine($"Id потока: {threadForTask.ManagedThreadId}");
             Console.WriteLine($"Статус потока: {threadForTask.ThreadState}");
-            /*threadForTask.Abort();
-            threadForTask.Suspend();
-            Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
+            //threadForTask.Abort();
+            //*threadForTask.Suspend();
+            /*Console.WriteLine($"Запущен ли поток: {threadForTask.IsAlive}");
             Console.WriteLine($"Id потока: {threadForTask.ManagedThreadId}");
             Console.WriteLine($"Статус потока: {threadForTask.ThreadState}");
             threadForTask.Resume();
@@ -171,21 +178,13 @@ namespace lab14
             }
             thread3.Join();
             thread4.Join();
-
-            int counter = 0;
             TimerCallback timerCB = new TimerCallback(Print);
-            Timer timer = new Timer(timerCB, counter, 0, 10000);
+            Timer timer = new Timer(timerCB, null, 0, 1000);
+            Thread.Sleep(4000);
 
-
-            static void Print(object obj)
+            void Print(object obj)
             {
-                if(obj is int n)
-                {
-                    for (int i = 1; i < 10; i++,++n)
-                    {
-                        Console.WriteLine($"Multiplication: {n*i}");
-                    }
-                }
+                Console.WriteLine("wassup");   
             }
         }
     }

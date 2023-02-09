@@ -41,7 +41,7 @@ namespace Lab08
                     i++;
                 }
             }
-           action(statement);
+            action(statement);
         }
         public void ShowText(string text)=> Console.WriteLine($"text: {text}");
         public void Upper(Action<string> action)
@@ -157,7 +157,7 @@ namespace Lab08
             programmer.newProperty -= lang3.addProperty;
 
 
-            programmer.Statement = "\thello! My\t na.me .is. Vo\tva.\t?";
+            programmer.Statement = "\t \t";
 
             //Action
             programmer.deleteT(programmer.ShowText);

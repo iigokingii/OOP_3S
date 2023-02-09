@@ -36,7 +36,7 @@ namespace lab04
         }
         public virtual string ToString()
         {
-            return $"type: land, square:{this.square}, type of land: {this.TypeOfLand}";
+            return $"type: land, square:{this.square}, type of land: {this.TypeOfLand}
         }
 
     }

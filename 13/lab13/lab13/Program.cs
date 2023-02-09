@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Runtime.Serialization;
-using System.Runtime.Serialization.Formatters;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Xml.Serialization;
 using System.IO;
@@ -44,7 +42,7 @@ namespace lab13
                 square = value;
             }
         }
-        [NonSerialized]
+        [NonSerialized] 
         int square;
         public string TypeOfLand { get; set; }
         public Land() { }
@@ -123,9 +121,6 @@ namespace lab13
                 Land newLandSOAP = (Land)soapFormatter.Deserialize(fs);
                 Console.WriteLine(newLandSOAP);
             }
-
-
-
             List<Land> lList = new List<Land>();
             lList.Add(landbin);
             lList.Add(landSOAP);
@@ -160,7 +155,6 @@ namespace lab13
                     Console.WriteLine($"name: {node.Name} inner text: {node.InnerText}");
                 }
             }
-
             XDocument xDoc = new XDocument(new XElement("formulas",
                 new XElement("parallelelipiped",
                     new XElement("volume", "abc")),

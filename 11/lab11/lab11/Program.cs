@@ -13,14 +13,14 @@ namespace lab11
         static public void WriteInit(IEnumerable<string> stroke, string rootNode, string name, string secondNode, string thirdNode)
         {
             XDocument xdoc = new XDocument();
+            XElement reflector = new XElement($"{rootNode}");
             XElement type = new XElement($"{name}");
-
             XElement xElement = new XElement($"{secondNode}");
             foreach (string tmp in stroke)
             {
                 xElement.Add(new XElement($"{thirdNode}", tmp));
             }
-            XElement reflector = new XElement($"{rootNode}");
+            
             type.Add(xElement);
             reflector.Add(type);
             xdoc.Add(reflector);
@@ -30,7 +30,6 @@ namespace lab11
         {
             XmlDocument xdoc = new XmlDocument();
             xdoc.Load("Reflector.xml");
-
             XmlElement? root = (XmlElement)xdoc.SelectSingleNode($"Reflector/{name}");
             XmlElement xmlElement = xdoc.CreateElement($"{secondNode}");    //новый элемент(3-ий)
             foreach (string tmp in stroke)
@@ -141,7 +140,7 @@ namespace lab11
             xml.Save("Reflector.xml");
 
         }
-        static public bool ConstructorInfo(Type obj)    //доп тесты
+        static public bool ConstructorInfo(Type obj)   
         {
             bool flag = false;
             foreach (ConstructorInfo constructor in obj.GetConstructors())
@@ -217,8 +216,6 @@ namespace lab11
             result = typ;
             return result;
         }
-
-
     }
     class Program
     {
@@ -266,9 +263,6 @@ namespace lab11
             Console.WriteLine();
             Reflector<Airline>.Assembly(assembly, type);
 
-            /*var Equal = typeof(Airline).GetMethod("Equals");
-            bool b = (bool)Equal.Invoke(airline1, new object []{airline2});
-            Reflector.Invoke(airline1,"Equals");*/
             Airline airline= new Airline();
             Type type1 = typeof(Airline);
             Airline air=Reflector<Airline>.Create(airline);

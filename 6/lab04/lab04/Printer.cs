@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace lab04
+﻿namespace lab04
 {
     class Printer
     {
-        public string IAmPrinting(continent someobj) {
+        public string IAmPrinting(continent someobj)
+        {
             return someobj.ToString();
         }
         public string IAmPrinting(island someobj)

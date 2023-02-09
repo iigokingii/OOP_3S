@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace lab04
 {
@@ -10,6 +8,6 @@ namespace lab04
         {
             Console.WriteLine("Вы находитесь на поверхности Земли");
         }
-        public abstract void  DoClone();
+        public abstract void DoClone();
     }
 }

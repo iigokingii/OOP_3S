@@ -408,8 +408,6 @@ namespace lab12
                 Log.Count();
                 Log.FindInf("20.11.2022", "3:30:00", "3:31:00", "Reflector.xml");
                 Log.delete("3:38:30");
-
-
             }
         }
     }

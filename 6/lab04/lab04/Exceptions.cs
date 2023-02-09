@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace lab04
 {
-    class DevException:Exception
+    class DevException : Exception
     {
         public DevException(string message) : base(message) { }
         public DevException() : base() { }
@@ -12,12 +10,13 @@ namespace lab04
     class ArgumentDevLessThanZeroException : ArgumentOutOfRangeException
     {
         int value { get; }
-        public ArgumentDevLessThanZeroException(string message, int _value):base(message)
+        public ArgumentDevLessThanZeroException(string message, int _value) : base(message)
         {
             value = _value;
         }
     }
-    class DeException: Exception { 
+    class DeException : Exception
+    {
         public DeException(string message) : base(message) { }
     }
 

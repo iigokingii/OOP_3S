@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace lab04
+﻿namespace lab04
 {
-    class state:continent
+    class state : continent
     {
         public state() { }
-        public state(string _continent,int _square,string _typeOfLand,string _stateName)
+        public state(string _continent, int _square, string _typeOfLand, string _stateName)
         {
             Square = _square;
             StateName = _stateName;

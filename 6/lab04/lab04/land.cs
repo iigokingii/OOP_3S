@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Diagnostics;
-
-namespace lab04
+﻿namespace lab04
 {
     partial class land : surface, IInformation
     {
-       
+
         protected int square;
         public string TypeOfLand;
         public land() { }
@@ -31,6 +26,6 @@ namespace lab04
                 }
             }
         }
-       
+
     }
 }
